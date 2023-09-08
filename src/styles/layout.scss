@@ -1,0 +1,152 @@
+// @use "sass:color";
+
+// @function opacity($number:1) {
+//   @return color.opacity($primary, $number);
+// }
+@mixin hoverStyle {
+  color: $white;
+  position: relative;
+  &::before{
+    content: '';
+    position: absolute;
+    inset: 0 10px;
+    border-radius: 4px;
+    clear: both;
+    margin: 4px 0;
+    transition: width $transDuration;
+    background-color: $primary;
+    @content
+  }
+  & * {
+    z-index: 1
+  }
+}
+.app-vertical-nav {
+  .el-menu{
+    border-right: unset;
+    background-color: $menuBg;
+    .el-menu-item{
+      color: $menuText;
+      &.is-active {
+        @include hoverStyle {
+          background-color: opacity(1)
+        };
+      }
+      &:hover {
+        background-color: unset;
+        @include hoverStyle;
+      }
+      & * {
+        vertical-align: middle;
+      }
+    }
+    .el-sub-menu {
+      &.is-active {
+        .el-sub-menu__title{
+          color: $white;
+        }
+      }
+    }
+    .el-sub-menu__title{
+      color: $menuText;
+      &:hover {
+        background-color: unset;
+        @include hoverStyle;
+      }
+      & * {
+        vertical-align: middle;
+      }
+    } 
+  }
+  .el-menu--collapse {
+    .el-sub-menu__icon-arrow {
+      display: none;
+    }
+    .el-sub-menu, .el-menu-item {
+      .menuItem-title {
+        .menuItem-name {
+          display:none;
+        }
+      }
+    }
+  }
+}
+.el-menu--popup-container {
+  background-color: $menuBg;
+  .el-menu {
+    background-color: $menuBg;
+    .el-menu-item, .el-sub-menu__title {
+      color: $menuText;
+      &:hover{
+        background-color: unset;
+        @include hoverStyle;
+      }
+    }
+  }
+}
+
+.collapse-sidebar {
+  .main-container{
+    margin-left: $menuFoldWidth !important;
+  }
+  .app-vertical-nav{
+    width: $menuFoldWidth !important;
+  }
+  .app-hearder {
+    width: calc(100% - $menuFoldWidth) !important;
+  }
+}
+.hide-sidebar {
+  .main-container{
+    margin-left: 0 !important;
+  }
+  .app-vertical-nav{
+    width: 0 !important;
+  }
+  .app-hearder {
+    width: calc(100% - 0px) !important;
+  }
+}
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* breadcrumb transition */
+.breadcrumb-enter-active {
+  transition: all 0.4s;
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
+  transition: all 0.3s;
+}
+
+.breadcrumb-enter-from,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}

@@ -1,0 +1,79 @@
+{
+  "buttons": {
+    "hsOpen": "Open",
+    "hsClose": "Close",
+    "hsLoginOut": "LoginOut",
+    "hsfullscreen": "Fullscreen",
+    "hsexitfullscreen": "ExitFullscreen",
+    "hsrefreshRoute": "RefreshRoute",
+    "hslogin": "Login",
+    "hsadd": "Add",
+    "hsmark": "Mark/Cancel",
+    "hssave": "Save",
+    "hssearch": "Search",
+    "hsexpendAll": "Expand All",
+    "hscollapseAll": "Collapse All",
+    "hssystemSet": "Open ProjectConfig",
+    "hsdelete": "Delete",
+    "hsreload": "Reload",
+    "hscloseCurrentTab": "Close CurrentTab",
+    "hscloseLeftTabs": "Close LeftTabs",
+    "hscloseRightTabs": "Close RightTabs",
+    "hscloseOtherTabs": "Close OtherTabs",
+    "hscloseAllTabs": "Close AllTabs",
+    "hswholeFullScreen": "FullScreen",
+    "hswholeExitFullScreen": "ExitFull",
+    "hscontentFullScreen": "Content FullScreen",
+    "hscontentExitFullScreen": "Content ExitFullScreen"
+  },
+  "menus": {
+    "hshome": "Home",
+    "hslogin": "Login",
+    "hsabnormal": "Abnormal Page",
+    "hsfourZeroFour": "404",
+    "hsfourZeroOne": "403",
+    "hsFive": "500",
+    "permission": "Permission Manage",
+    "permissionPage": "Page Permission",
+    "permissionButton": "Button Permission"
+  },
+  "status": {
+    "hsLoad": "Loading...",
+    "hsSearchEmpty": "No search results",
+    "hsSearchTotal": "Total",
+    "hsSearchItem": "items",
+    "hsCollapseIn": "Collapse",
+    "hsCollapseOut": "Commence",
+    "backToHome": "Back to Home",
+    "401": "Sorry, you are not authorized to access this page",
+    "404": "Sorry, the page you are visiting does not exist",
+    "500": "I'm sorry. We're having server problems."
+  },
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "usernameReg": "Please enter username",
+    "passwordReg": "Please enter password",
+    "passwordRuleReg": "The password format should be any combination of 8-18 digits"
+  },
+  "tooltip": {
+    "search": "search",
+    "AppSetting": "App Setting"
+  },
+  "setting": {
+    "hsInterfaceFunctions":"Interface Functions",
+    "hsInterfaceDisplay": "Interface Display",
+    "hsEraseCache": "Erase Cache",
+    "hsMenuSearch": "Menu Search",
+    "hsShowLogo": "Show Logo",
+    "hsShowBreadCrumb": "Show BreadCrumb",
+    "hsShowTags": "Show Tags",
+    "hsShowAppHearder": "Show App Hearder",
+    "hsShowVerticalNav": "Show Vertical Nav",
+    "hsShowNavCollapse": "Show Nav Collapse",
+    "hsShowGrayColor": "Show Gray Color",
+    "hsShowWeakColor": "Show Weak Color",
+    "hsUniqueOpened": "Keep only one submenu expanded"
+  }
+}

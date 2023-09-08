@@ -1,0 +1,15 @@
+/* 自定义菜单搜索样式 */
+.search-dialog {
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding-top: 12px;
+    padding-bottom: 10px;
+  }
+
+  .el-dialog__footer {
+    padding: 0;
+  }
+}

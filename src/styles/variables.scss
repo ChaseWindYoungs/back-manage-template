@@ -1,0 +1,68 @@
+/* 自定义全局 CssVar */
+:root {
+  --white: #ffffff;
+  --menuBg: #001529;
+  --menuText: #bfcbd9;
+  // --menuActiveText: #409eff;
+  --menuActiveText: #1f74ff;
+  --menuHover: #263445;
+  --subMenuBg: #1f2d3d;
+  --subMenuActiveText: #f4f4f5;
+  --subMenuHover: #001528;
+  --primary: #1f74ff;
+  --text-color-primary: #303133;
+  --text-color-placeholder: #a8abb2;
+  --text-color-placeholder: #a8abb2;
+  /* 左侧菜单 */
+  // 左侧菜单展开、收起宽度
+  --menu-expand-width: 240px;
+  --menu-fold-width: 64px;
+  // 展开、收起动画时长
+  --transition-duration: 0.3s;
+  // 顶部菜单高度
+  --top-bar-height: 60px;
+  // 有tags时候的顶部菜单高度
+  --header-with-tags-height: 100px;
+}
+
+$white: var(--white);
+$primary: var(--primary);
+$textColor: var(--text-color-primary);
+$info: var(--text-color-placeholder);
+$menuBg: var(--menuBg);
+$menuText: var(--menuText);
+$menuActiveText: var(--menuActiveText);
+$menuHover: var(--menuHover);
+
+$subMenuBg: var(--subMenuBg);
+$subMenuActiveText: var(--subMenuActiveText);
+$subMenuHover: var(--subMenuHover);
+
+$menuExpandWidth: var(--menu-expand-width);
+$menuFoldWidth: var(--menu-fold-width);
+$headerWithTags: var(--header-with-tags-height);
+$topBarHeight: var(--top-bar-height);
+$transDuration: var(--transition-duration);
+
+@mixin empty($content: "这里空空如也，请先选择") {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  background: url("@/assets/images/empty.png") no-repeat center;
+  background-size: 100%;
+
+  &::before {
+    position: absolute;
+    display: inline-block;
+    bottom: 0;
+    font-size: 14px;
+    height: 20px;
+    width: 100%;
+    content: $content;
+    color: $info;
+    text-align: center;
+  }
+}
