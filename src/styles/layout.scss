@@ -85,8 +85,10 @@
   }
 }
 
+
 .collapse-sidebar {
   .main-container{
+    width: calc(100% - $menuFoldWidth) !important;
     margin-left: $menuFoldWidth !important;
   }
   .app-vertical-nav{
@@ -98,13 +100,14 @@
 }
 .hide-sidebar {
   .main-container{
+    width: 100% !important;
     margin-left: 0 !important;
   }
   .app-vertical-nav{
     width: 0 !important;
   }
   .app-hearder {
-    width: calc(100% - 0px) !important;
+    width: 100% !important;
   }
 }
 

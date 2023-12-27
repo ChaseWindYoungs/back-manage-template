@@ -34,6 +34,7 @@ import Logo from '../components/Logo.vue';
 import Collapse from '../components/Collapse.vue';
 import { computed } from "vue";
 import { onMounted } from "vue";
+import { cloneDeep } from "lodash-es"
 const appStore = useAppStore();
 const { isCollapse, setting } = storeToRefs(appStore);
 
@@ -43,7 +44,7 @@ const { isCollapse, setting } = storeToRefs(appStore);
 
 const routeArr = computed(() => {
   let Layout = routes.find(i => i.name === 'Layout')
-  let layoutChilds = Layout.children ?? []
+  let layoutChilds = cloneDeep(Layout.children ?? [])
   let arr = routes.filter(i => i.meta.showLink !== false)
   layoutChilds.forEach(i => {
     arr.unshift(i)

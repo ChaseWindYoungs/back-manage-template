@@ -1,15 +1,17 @@
 // 导入 Element Plus 中英文语言包
-import { ref, computed } from 'vue';
+import { ref, computed, Ref } from 'vue';
 import { defineStore } from "pinia";
-import zhCn from "element-plus/lib/locale/lang/zh-cn";
-import en from "element-plus/lib/locale/lang/en";
 import { store } from "@/store";
 import { getSettingValOrDef } from '../utils'
 import { toggleClass } from '@/utils'
+import zhCn from "element-plus/lib/locale/lang/zh-cn";
+import en from "element-plus/lib/locale/lang/en";
 import AppConfig from '@/constants/AppConfig';
+import { SettingDef, SettingKeys } from '../type'
 export const StorageName = 'APP_SETTING'
 
-const settingKeys = [
+
+const settingKeys : Array<SettingKeys> = [
   'collapse',
   'showAppName',
   'showVerticalNav',
@@ -24,18 +26,20 @@ const settingKeys = [
   'uniqueOpened', 
 ]
 
+function initSetting() :SettingDef {
+  let obj:SettingDef = {};
+  settingKeys.forEach((i:SettingKeys) => {
+    obj[i] = getSettingValOrDef(i, StorageName, 'local')
+  })
+  return obj
+}
+const _setting = initSetting()
+
 // setup
 export const useAppStore = defineStore(
   "app", 
   () => {
-    // state
-    let initConfig = initSetting()
-    // const setting = ref(initSetting())
-    const setting = ref({
-      // showAppName: localStorage.getItem(StorageName) ? localStorage.getItem(StorageName).setting ? localStorage.getItem(StorageName).setting.showAppName : AppConfig.showAppName : AppConfig.showAppName
-      showAppName: AppConfig.showAppName
-    })
-    const curCase = ref(0)
+    const setting:Ref<SettingDef> = ref(_setting)
     const language = ref(zhCn);
 
     // getter
@@ -60,28 +64,14 @@ export const useAppStore = defineStore(
       setting.value.showAppTopBar = !setting.value.showAppTopBar
     }
 
-    function setLocalSettingVal() {
-      for (let i in setting.value){
-        setting.value[i] = getSettingValOrDef(i, StorageName, 'local') 
-      }
-    }
-
-    function setSettingVal(val:any, key: string, ) {
+    function setSettingVal(val:any, key: SettingKeys, ) {
       setting.value[key] = val
-      // let local = JSON.parse(localStorage.getItem(StorageName))
-      // if(!local) {
-      //   localStorage.setItem(StorageName, JSON.stringify({setting: setting.value}))
-      // } else {
-      //   local.setting = setting.value
-      //   localStorage.setItem(StorageName, JSON.stringify(local))
-      // }
-      // curCaseSet()
     }
 
     /** 灰色模式设置 */
     function greyChange (value?: boolean): void {
       toggleClass(
-        value ?? setting.value.showGreyColor, 
+        value ?? !!(setting.value.showGreyColor), 
         "html-grey", 
         document.querySelector("html") ?? undefined
       );
@@ -90,44 +80,34 @@ export const useAppStore = defineStore(
       /** 色弱模式设置 */
     function weakChange (value?: boolean): void {
       toggleClass(
-        value ?? setting.value.showWeakColor,
+        value ?? !!(setting.value.showWeakColor),
         "html-weakness",
         document.querySelector("html") ?? undefined
       );
     }
-    function initSetting() {
-      let obj = {}
-      settingKeys.forEach(i => {
-        obj[i] = getSettingValOrDef(i, StorageName, 'local')
-      })
-      return obj
-    }
-
     function eraseSettingCache() {
-      for (let i in setting.value){
-        setting.value[i] = AppConfig[i]
+      let key: SettingKeys
+      for (key in setting.value){
+        /**
+         * ! 这里的Ts报错不知道怎么处理
+         */
+        setting.value[key] = AppConfig[key]
       }
-      let local = JSON.parse(localStorage.getItem(StorageName))
-      if(local) {
-        local.setting = setting.value
-        localStorage.setItem(StorageName, JSON.stringify(local))
+      try {
+        let local = JSON.parse(localStorage.getItem(StorageName) ?? '')
+        if(local) {
+          local.setting = setting.value
+          localStorage.setItem(StorageName, JSON.stringify(local))
+        }
+      } catch (error) {
+        
       }
     }
 
-    function curCaseSet () {
-      
-        // curCase.value = {
-        //   a: 1,
-        //   b: 2,
-        //   c: ['11', '22', '33']
-        // }
-      curCase.value = curCase.value + 1
-    }
 
     return {
       setting,
       language,
-      curCase,
 
       isCollapse,
       isContentFull,
@@ -137,10 +117,8 @@ export const useAppStore = defineStore(
       changeContentFull,
       setSettingVal,
       eraseSettingCache,
-      setLocalSettingVal,
       greyChange,
       weakChange,
-      curCaseSet
     } 
   },
   {

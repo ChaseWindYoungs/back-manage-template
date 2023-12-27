@@ -12,9 +12,7 @@ import "@/styles/index.scss";
 import 'virtual:svg-icons-register'
 import '@/assets/icon/iconfont.js';
 import SvgIcon from '@/components/SvgIcon.vue'
-import { useAppStoreHook } from '@/store/modules/app'
-const { greyChange, weakChange } = useAppStoreHook();
-
+import ZText from '@namchee/vue-ztext';
 
 const app = createApp(App);
 useIcoins(app)
@@ -22,5 +20,4 @@ useIcoins(app)
 setupStore(app);
 app.component('SvgIcon', SvgIcon);
 app.use(router).use(useI18n).mount('#app');
-greyChange()
-weakChange()
+app.use(ZText)

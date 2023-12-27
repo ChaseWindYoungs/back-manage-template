@@ -32,9 +32,9 @@ const appStore = useAppStore();
 const { showAppTopBar, showAppSearch, showAppSetting, showBreadCrumb, setting } = storeToRefs(appStore);
 
 const tagsStore = useTagsStore();
-const { showTags, cacheTagsList } = storeToRefs(tagsStore);
+const { showTags, multiTags } = storeToRefs(tagsStore);
 const showTagsView = computed(() => {
-  return showTags.value && cacheTagsList.value.length > 0
+  return showTags.value && multiTags.value.length > 0
 })
 
 

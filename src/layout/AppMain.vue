@@ -1,8 +1,8 @@
 <template>
-  <div class="app-main" :class="{ 'has-tags-view': true }">
+  <div class="app-main" :class="{ 'has-tags-view': showTags }">
     <el-scrollbar>
       <router-view v-slot="{ Component, route }">
-        <Transition name="fade" mode="out-in">
+        <Transition name="fade-transform" mode="out-in">
           <keep-alive v-if="keepAlive">
             <component :is="Component" />
           </keep-alive>
@@ -24,9 +24,9 @@ defineOptions({
   name: 'AppMain'
 })
 import {useTagsStore} from '@/store/modules/tags'
-const tagsStore = useTagsStore();
 import { storeToRefs } from "pinia";
-const { keepAlive } = storeToRefs(tagsStore);
+const tagsStore = useTagsStore();
+const { keepAlive, showTags } = storeToRefs(tagsStore);
 </script>
 <style lang="scss" scoped>
 .app-main {

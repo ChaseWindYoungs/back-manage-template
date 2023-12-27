@@ -36,11 +36,12 @@ const { isCollapse, setting } = storeToRefs(appStore);
     flex: 1;
     height: 100vh;
     min-height: 100%;
-    position: relative;
+    min-width: 300px;
     margin-left: $menuExpandWidth;
     transition: margin $transDuration;
     position: relative;
     background: #f0f2f5;
+    width: calc(100% - $menuExpandWidth);
   }
 }
 </style>

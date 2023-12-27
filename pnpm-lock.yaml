@@ -11,6 +11,9 @@ dependencies:
   '@intlify/unplugin-vue-i18n':
     specifier: ^0.13.0
     version: 0.13.0(vue-i18n@9.2.2)
+  '@namchee/vue-ztext':
+    specifier: ^1.0.0
+    version: 1.0.0(vue@3.3.4)
   '@vitejs/plugin-vue-jsx':
     specifier: ^3.0.1
     version: 3.0.1(vite@4.4.0)(vue@3.3.4)
@@ -750,6 +753,14 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: false
+
+  /@namchee/vue-ztext@1.0.0(vue@3.3.4):
+    resolution: {integrity: sha512-rensiNYrDY9+fNes+jxUDTfM5//0qRFaO3g14Yw4EF2J3b/aT430Psq/8/fdtXEDfoBRZw7lp/SuVTjZEqDpKA==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.3.4
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:

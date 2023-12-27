@@ -3,15 +3,11 @@ import {
   createWebHashHistory,
   RouteRecordRaw
 } from 'vue-router';
-
 import errorRoutes from './error.ts'
 import { useTagsStoreHook } from "@/store/modules/tags";
 import { findRouteByName } from './utils.ts'
 import NProgress from "@/utils/nprogress";
 
-import { StorageName, useAppStoreHook } from '@/store/modules/app.ts';
-const { setLocalSettingVal } = useAppStoreHook()
- 
 const Layout = () => import("@/layout/index.vue");
 // 静态路由
 export const commonRoutes = [
@@ -26,47 +22,36 @@ export const commonRoutes = [
         path: '/welcome',
         component: () => import("@/pages/Home.vue"),
         name: 'welcome',
-        meta: { title: '首页', icon: 'home', activeIcon: 'home-fill' }
+        // https://router.vuejs.org/zh/guide/advanced/meta.html
+        // vue-router会非递归合并所有 meta 字段（从父字段到子字段）的方法，因此，需要给该路由加上showLink: true，防止被覆盖
+        meta: { title: '首页', icon: 'home', activeIcon: 'home-fill', showLink: true }
       },
     ]
   },
   {
     path: "/redirect",
     component: Layout,
-    meta: { title: '加载中...', showLink: false, },
+    meta: { title: '加载中...', showLink: false, hiddenTag: true },
     children: [
       {
         path: "/redirect/:path(.*)",
         name: "Redirect",
         component: () => import("@/layout/components/Redirect.vue"),
-        meta: { title: '重定向', showLink: false, }
+        meta: { title: '重定向', showLink: false, hiddenTag: true }
       }
     ]
   },
-  // {
-  //   path: '/home',
-  //   name: 'Home',
-  //   component: Layout,
-    
-  //   meta: { title: 'Layout', showLink: false },
-  // },
-  // {
-  //   path: '/welcome',
-  //   component: () => import("@/pages/Home.vue"),
-  //   name: 'welcome',
-  //   meta: { title: '首页' }
-  // },
   {
     path: "/login",
     name: "Login",
     component: () => import("@/pages/login/index.vue"),
-    meta: { title: '登录', showLink: false }
+    meta: { title: '登录', showLink: false, hiddenTag: true }
   },
   {
     path: '/nested',
     name: 'nested',
     component: Layout,
-    meta: { title: 'nested', icon: 'apartment', },
+    meta: { title: 'nested', icon: 'apartment' },
     redirect: "/nested/level1",
     children: [
       {
@@ -116,18 +101,11 @@ const router = createRouter({
 });
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
-  const { name } = to;
-  const settings = JSON.parse(localStorage.getItem(StorageName))
-  if(settings) {
-    setLocalSettingVal()
-  }
-  const route = findRouteByName(
-    name,
-    router.options.routes
-  );
-  if(to.meta.showLink !== false) {
-    useTagsStoreHook().setSingleCacheTags(route)
-  }
+  const { name, path, fullPath, query, meta } = to;
+  useTagsStoreHook().handleTags(
+    'push',
+    { name, path, fullPath, query, meta }
+  )
   next();
 });
 router.afterEach(() => {

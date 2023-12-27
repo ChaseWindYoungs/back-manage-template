@@ -8,13 +8,23 @@
     </span>
     <div ref="scrollbarDom" class="scroll-container">
       <div ref="tabDom" class="tags-list">
-        <div ref="tagItemRef" v-for="(item, index) in cacheTagsList" :key="index" class="tag-item"
-          :class="{ 'active': route.name === item.name, 'content-menu-active': rightMenuIndex === index }"
-          @click="goto(item, index)" @mouseenter.prevent="onMouseEnter(index)" @mouseleave.prevent="onMouseLeave"
-          @contextmenu.prevent="openMenu(index, $event)">
-          <span class="title">{{ item.meta?.title ?? '' }}</span>
-          <el-icon :class="{ 'show-icon': showCloseIcon(index, item) }" class="el-icon-close"
-            @click.stop="handleDelete(item, index)">
+        <div
+          ref="tagItemRef"
+          v-for="(item, index) in multiTags"
+          :key="index"
+          class="tag-item"
+          :class="{ active: route.name === item.name, 'content-menu-active': rightMenuIndex === index }"
+          @click="goto(item, index)"
+          @mouseenter.prevent="onMouseEnter(index)"
+          @mouseleave.prevent="onMouseLeave"
+          @contextmenu.prevent="openMenu(item, index, $event)"
+        >
+          <span class="title">{{ item.meta?.title ?? "" }}</span>
+          <el-icon
+            :class="{ 'show-icon': showCloseIcon(index, item) }"
+            class="el-icon-close"
+            @click.stop="handleDelete(item, index)"
+          >
             <Close />
           </el-icon>
         </div>
@@ -42,8 +52,12 @@
     <!-- 右键菜单按钮 -->
     <transition name="el-zoom-in-top">
       <ul v-show="visible" :key="Math.random()" class="contextmenu" :style="menuPosition" ref="contextmenuRef">
-        <li v-for="(item, index) in tagsRightMenuFilter" :key="index" :class="{ 'disabled': item.disabled }"
-          @click="menuItemClick(item, index)">
+        <li
+          v-for="(item, index) in tagsRightMenuFilter"
+          :key="index"
+          :class="{ disabled: item.disabled }"
+          @click="menuItemClick(item, index)"
+        >
           <component v-if="item.icon" :is="item.icon" />
           {{ item.text }}
         </li>
@@ -54,148 +68,193 @@
 <script setup lang="tsx">
 /**
  * index
-*/
+ */
 defineOptions({
-  name: 'TagsView'
-})
-import { ref, reactive, computed, getCurrentInstance, watch, shallowRef, unref, nextTick } from 'vue';
-import { RouteRecordName, useRoute, useRouter } from 'vue-router'
-import { useTagsStore } from '@/store/modules/tags'
-import { useAppStore } from '@/store/modules/app'
+  name: "TagsView",
+});
+import { ref, reactive, computed, getCurrentInstance, watch, shallowRef, unref, nextTick } from "vue";
+import { RouteRecordName, useRoute, useRouter } from "vue-router";
+import { useTagsStore } from "@/store/modules/tags";
+import { useAppStore } from "@/store/modules/app";
 import { storeToRefs } from "pinia";
-import { onMounted } from 'vue';
-import router from '@/router';
-import { Refresh, Close, DArrowLeft, DArrowRight, Remove, CircleClose, FullScreen, Crop } from '@element-plus/icons-vue'
-import { onClickOutside } from '@vueuse/core'
+import { onMounted } from "vue";
+import router from "@/router";
+import {
+  Refresh,
+  Close,
+  DArrowLeft,
+  DArrowRight,
+  Remove,
+  CircleClose,
+  FullScreen,
+  Crop,
+} from "@element-plus/icons-vue";
+import { onClickOutside } from "@vueuse/core";
 import { cloneDeep } from "lodash-es";
-import { $toRef } from 'vue/macros';
-import { useI18n } from 'vue-i18n'//要在js中使用国际化
-const $I18n = useI18n()
+import { $toRef } from "vue/macros";
+import { useI18n } from "vue-i18n"; //要在js中使用国际化
+const $I18n = useI18n();
 
 const tagsStore = useTagsStore();
 const appStore = useAppStore();
-const { cacheTagsList } = storeToRefs(tagsStore);
+const { multiTags } = storeToRefs(tagsStore);
 const { isContentFull } = storeToRefs(appStore);
-const { changeContentFull } = appStore
-const route = useRoute()
+const { changeContentFull } = appStore;
+const route = useRoute();
 
-const isShowArrow = computed(() => true)
+const isShowArrow = computed(() => true);
 const showCloseIcon = computed(() => {
   return (index, item) => {
-    if (index === 0) return false
-    return item.name === route.name || activeIndex.value === index
-  }
-})
-const activeIndex = ref(0) // 用于处理icon展示
-const currentIndex = ref(0) // 用于记录当前激活
-const rightMenuIndex = ref(-1) // 用户记录当前右键点击
-const contextmenuRef = ref(null)
-const visible = ref(false)
+    if (index === 0) return false;
+    return item.name === route.name || activeIndex.value === index;
+  };
+});
+const activeIndex = ref(0); // 用于处理icon展示
+const currentIndex = ref(0); // 用于记录当前激活
+const rightMenuIndex = ref(-1); // 用户记录当前右键点击
+const contextmenuRef = ref(null);
+const visible = ref(false);
 
 const tagsRightMenu = [
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><Refresh /></el-icon>
+      render: () => (
+        <el-icon>
+          <Refresh />
+        </el-icon>
+      ),
     }),
-    flag: 'refresh',
-    text: $I18n.t('buttons.hsreload'),
+    flag: "refresh",
+    text: $I18n.t("buttons.hsreload"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><Close /></el-icon>
+      render: () => (
+        <el-icon>
+          <Close />
+        </el-icon>
+      ),
     }),
-    flag: 'current',
-    text: $I18n.t('buttons.hscloseCurrentTab'),
+    flag: "current",
+    text: $I18n.t("buttons.hscloseCurrentTab"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><DArrowLeft /></el-icon>
+      render: () => (
+        <el-icon>
+          <DArrowLeft />
+        </el-icon>
+      ),
     }),
-    flag: 'left',
-    text: $I18n.t('buttons.hscloseLeftTabs'),
+    flag: "left",
+    text: $I18n.t("buttons.hscloseLeftTabs"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><DArrowRight /></el-icon>
+      render: () => (
+        <el-icon>
+          <DArrowRight />
+        </el-icon>
+      ),
     }),
-    flag: 'right',
-    text: $I18n.t('buttons.hscloseRightTabs'),
+    flag: "right",
+    text: $I18n.t("buttons.hscloseRightTabs"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><Remove /></el-icon>
+      render: () => (
+        <el-icon>
+          <Remove />
+        </el-icon>
+      ),
     }),
-    flag: 'other',
-    text: $I18n.t('buttons.hscloseOtherTabs'),
+    flag: "other",
+    text: $I18n.t("buttons.hscloseOtherTabs"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => <el-icon><CircleClose /></el-icon>
+      render: () => (
+        <el-icon>
+          <CircleClose />
+        </el-icon>
+      ),
     }),
-    flag: 'all',
-    text: $I18n.t('buttons.hscloseAllTabs'),
+    flag: "all",
+    text: $I18n.t("buttons.hscloseAllTabs"),
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
   {
     icon: shallowRef({
       name: "contextmenuIcon",
-      render: () => isContentFull.value ? <el-icon><Crop /></el-icon> : <el-icon><FullScreen /></el-icon>
+      render: () =>
+        isContentFull.value ? (
+          <el-icon>
+            <Crop />
+          </el-icon>
+        ) : (
+          <el-icon>
+            <FullScreen />
+          </el-icon>
+        ),
     }),
-    flag: 'cur_full',
-    text: '',
+    flag: "cur_full",
+    text: "",
     divided: false,
     disabled: false,
-    show: true
+    show: true,
   },
-]
-const tagsRightMenuFilter = ref([])
+];
+const tagsRightMenuFilter = ref([]);
 
 function handleScroll() {
-  console.log(333333)
+  console.log(333333);
 }
 
-function goto(item: { name: any; }, index: number) {
-  router.push({ name: item.name })
-  currentIndex.value = index
+function goto(item: { name: any }, index: number) {
+  router.push({ name: item.name });
+  currentIndex.value = index;
 }
-
-function openMenu(index: number, event: MouseEvent) {
+const currentSelect = ref({});
+function openMenu(item: Object, index: number, event: MouseEvent) {
   rightMenuIndex.value = index;
-  setContextmenuPosition(event)
-  filterMenuList(index)
-  visible.value = true
+  setContextmenuPosition(event);
+  filterMenuList(index);
+  currentSelect.value = item;
+  nextTick(() => {
+    visible.value = true;
+  });
 }
 
-function handleDelete(item: any, index: number, position?: any) {
+function handleDelete(item: any, index: number) {
   if (currentIndex.value === index) {
-    let newItem = cacheTagsList.value[index - 1]
-    router.push({ name: newItem.name })
-    currentIndex.value = index - 1
+    let newItem = multiTags.value[index - 1];
+    router.push({ name: newItem.name });
+    currentIndex.value = index - 1;
   }
-  tagsStore.handleTags(item, 'delete', position)
+  tagsStore.handleTags("delete", item, "current");
 }
 
 function onMouseEnter(index: number) {
@@ -213,125 +272,127 @@ function handleCommand(command: any) {
 function initCurrentIndex(arr: any[]) {
   arr.forEach((tag, index) => {
     if (tag.name === route.name) {
-      currentIndex.value = index
+      currentIndex.value = index;
     }
   });
 }
 
-const menuPosition = ref({ left: '10px', top: '10px' })
+const menuPosition = ref({ left: "10px", top: "10px" });
 function setContextmenuPosition(e: MouseEvent) {
   let left = `${(e?.clientX ?? 0) + 10}px`;
   let top = `${(e?.clientY ?? 0) + 20}px`;
-  menuPosition.value = { left, top }
+  menuPosition.value = { left, top };
 }
 
 function filterMenuList(index: number) {
-  let arr = cloneDeep(tagsRightMenu)
-  arr[6].text = isContentFull.value ? $I18n.t('buttons.hscontentExitFullScreen') : $I18n.t('buttons.hscontentFullScreen')
+  let arr = cloneDeep(tagsRightMenu);
+  arr[6].text = isContentFull.value
+    ? $I18n.t("buttons.hscontentExitFullScreen")
+    : $I18n.t("buttons.hscontentFullScreen");
   if (index !== currentIndex.value) {
-    arr[0].disabled = true
-    arr[6].disabled = true
+    arr[0].disabled = true;
+    arr[6].disabled = true;
   }
   if (index === 0) {
-    arr[1].show = false
-    arr[2].show = false
+    arr[1].show = false;
+    arr[2].show = false;
   } else if (index === 1) {
-    arr[2].show = false
+    arr[2].show = false;
   }
-  if (cacheTagsList.value.length - 1 === index || cacheTagsList.value.length === 1) {
-    arr[3].show = false
+  if (multiTags.value.length - 1 === index || multiTags.value.length === 1) {
+    arr[3].show = false;
   }
   // 只有首页
-  if (cacheTagsList.value.length < 3) {
-    arr[4].show = false
-    arr[5].show = false
+  if (multiTags.value.length < 3) {
+    arr[4].show = false;
+    arr[5].show = false;
   }
-  tagsRightMenuFilter.value = arr.filter((i: { show: any; }) => i.show)
+  tagsRightMenuFilter.value = arr.filter((i: { show: any }) => i.show);
 }
 
-function menuItemClick(item: { disabled: any; flag: string; }, key: number) {
+function menuItemClick(item: { disabled: any; flag: string }, key: number) {
   let cIdx = currentIndex.value;
   let rmIdx = rightMenuIndex.value;
-  let cIdxItem = cacheTagsList.value[rmIdx];
+  let cIdxItem = multiTags.value[rmIdx];
   if (item && item.disabled) return;
-  if (item.flag === 'refresh') {
+  if (item.flag === "refresh") {
     // 刷新路由
-    handleReFresh()
+    handleReFresh();
+    tagsStore.handleTags(cIdxItem, "refresh");
   } else {
-    if (item.flag === 'cur_full') {
-      changeContentFull()
+    if (item.flag === "cur_full") {
+      changeContentFull();
     } else {
-      if (item.flag === 'current') {
+      if (item.flag === "current") {
         // 关闭当前
         if (cIdx === rmIdx) {
-          let newItem = cacheTagsList.value[rmIdx - 1]
-          router.push({ name: newItem.name })
-          currentIndex.value = rmIdx - 1
+          let newItem = multiTags.value[rmIdx - 1];
+          router.push({ name: newItem.name });
+          currentIndex.value = rmIdx - 1;
         }
-      } else if (item.flag === 'left') {
+      } else if (item.flag === "left") {
         if (cIdx !== rmIdx && rmIdx > cIdx) {
-          let newItem = cloneDeep(cacheTagsList.value[rmIdx])
-          router.push({ name: newItem.name })
-          currentIndex.value = rmIdx
+          let newItem = cloneDeep(multiTags.value[rmIdx]);
+          router.push({ name: newItem.name });
+          currentIndex.value = rmIdx;
         }
         // 关闭左侧
-      } else if (item.flag === 'right') {
+      } else if (item.flag === "right") {
         // 关闭右侧
-        router.push({ name: cIdxItem.name })
-        currentIndex.value = rmIdx - 1
-      } else if (item.flag === 'other') {
+        router.push({ name: cIdxItem.name });
+        currentIndex.value = rmIdx - 1;
+      } else if (item.flag === "other") {
         // 关闭其他
-        router.push({ name: cIdxItem.name })
-        currentIndex.value = rmIdx - 1
-      } else if (item.flag === 'all') {
+        router.push({ name: cIdxItem.name });
+        currentIndex.value = rmIdx - 1;
+      } else if (item.flag === "all") {
         // 关闭其他
-        router.push({ name: cacheTagsList.value[0].name })
-        currentIndex.value = 0
+        router.push({ name: multiTags.value[0].name });
+        currentIndex.value = 0;
       }
-      tagsStore.handleTags(cIdxItem, 'delete', item.flag)
+      tagsStore.handleTags("delete", cIdxItem, item.flag);
     }
   }
   nextTick(() => {
-    closeMenu()
-  })
+    closeMenu();
+  });
 }
 // 刷新路由
 function handleReFresh() {
   const { fullPath, query } = unref(route);
   router.replace({
     path: "/redirect" + fullPath,
-    query
+    query,
   });
-};
+}
 
 watch(
-  () => cacheTagsList.value,
+  () => multiTags.value,
   (newV) => initCurrentIndex(newV),
-  { deep: true, }
-)
+  { deep: true }
+);
 watch(
   () => route,
   (newV) => {
-    currentIndex.value = cacheTagsList.value.findIndex((i: { name: RouteRecordName | null | undefined; }) => i.name === newV.name);
+    currentIndex.value = multiTags.value.findIndex(
+      (i: { name: RouteRecordName | null | undefined }) => i.name === newV.name
+    );
   },
-  { deep: true, }
-)
+  { deep: true }
+);
 
 function closeMenu() {
   visible.value = false;
-  rightMenuIndex.value = -1
+  rightMenuIndex.value = -1;
 }
 
 onClickOutside(contextmenuRef, () => {
-  closeMenu()
-})
+  closeMenu();
+});
 
 onMounted(() => {
-  initCurrentIndex(cacheTagsList.value)
-})
-
-
-
+  initCurrentIndex(multiTags.value);
+});
 </script>
 <style lang="scss" scoped>
 .tags-view {
@@ -366,11 +427,11 @@ onMounted(() => {
   }
 
   .arrow-left {
-    box-shadow: 6px 0 8px -4px #ccc
+    box-shadow: 6px 0 8px -4px #ccc;
   }
 
   .arrow-right {
-    box-shadow: -6px 0 8px -4px #ccc
+    box-shadow: -6px 0 8px -4px #ccc;
   }
 
   .arrow-menu {
@@ -385,12 +446,11 @@ onMounted(() => {
   .tags-list {
     display: flex;
     align-items: center;
-
   }
 
   .tag-item {
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 4px 16px;
     border: 1px solid #ececec;
     border-radius: 4px;
     position: relative;
@@ -402,16 +462,16 @@ onMounted(() => {
       font-size: 14px;
     }
 
-    &:first-child {
-      padding-right: 6px !important;
-    }
+    // &:first-child {
+    //   padding-right: 6px !important;
+    // }
 
     &:not(:last-child) {
       margin-right: 6px;
     }
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       bottom: -2px;

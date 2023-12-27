@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { isExternal } from '@/utils'
 import {useTagsStore} from '@/store/modules/tags'
 import { storeToRefs } from "pinia";
@@ -20,14 +20,12 @@ const props = defineProps({
 })
 
 const router = useRouter();
+const route = useRoute();
 
 function push() {
   router.push(props.to).catch(err => {
     console.log(err)
   })
-  if(showTags.value) {
-    tagsStore.setSingleCacheTags(props.menuItem)
-  }
 }
 </script>
 

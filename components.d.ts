@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppLink: typeof import('./src/components/AppLink.vue')['default']
+    Dialog: typeof import('./src/components/Dialog.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -34,6 +35,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Form: typeof import('./src/components/Form.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MenuItem: typeof import('./src/components/MenuItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -43,6 +45,7 @@ declare module 'vue' {
     SubMenu: typeof import('./src/components/SubMenu.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
     SwitchCom: typeof import('./src/components/SwitchCom.vue')['default']
+    Table: typeof import('./src/components/Table.vue')['default']
     Test: typeof import('./src/components/test.vue')['default']
   }
   export interface ComponentCustomProperties {
