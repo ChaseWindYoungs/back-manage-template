@@ -284,6 +284,7 @@ function setContextmenuPosition(e: MouseEvent) {
   menuPosition.value = { left, top };
 }
 
+
 function filterMenuList(index: number) {
   let arr = cloneDeep(tagsRightMenu);
   arr[6].text = isContentFull.value
@@ -316,9 +317,13 @@ function menuItemClick(item: { disabled: any; flag: string }, key: number) {
   let cIdxItem = multiTags.value[rmIdx];
   if (item && item.disabled) return;
   if (item.flag === "refresh") {
+    tagsStore.handleTags("refresh", cIdxItem);
     // 刷新路由
-    handleReFresh();
-    tagsStore.handleTags(cIdxItem, "refresh");
+    nextTick(() =>{
+      handleReFresh();
+    })
+    
+    
   } else {
     if (item.flag === "cur_full") {
       changeContentFull();

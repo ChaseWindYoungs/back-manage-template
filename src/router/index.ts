@@ -5,7 +5,7 @@ import {
 } from 'vue-router';
 import errorRoutes from './error.ts'
 import { useTagsStoreHook } from "@/store/modules/tags";
-import { findRouteByName } from './utils.ts'
+import { useTimeoutFn } from "@vueuse/core";
 import NProgress from "@/utils/nprogress";
 
 const Layout = () => import("@/layout/index.vue");
@@ -103,9 +103,17 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start();
   const { name, path, fullPath, query, meta } = to;
   useTagsStoreHook().handleTags(
-    'push',
+    'add',
     { name, path, fullPath, query, meta }
   )
+  useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
+  // 页面整体刷新和点击标签页刷新
+  if (from.name === undefined || from.name === "Redirect") {
+    useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'delete',)
+    useTimeoutFn(() => {
+      useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
+    }, 100);
+  }
   next();
 });
 router.afterEach(() => {

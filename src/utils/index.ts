@@ -53,14 +53,14 @@ export function debounce(func, wait = 300) {
   let timer = null;
   return () => {
     if (timer) clearTimeout(timer);
-    timer = setTimeout(function() {
+    timer = setTimeout(function () {
       func.apply(this, arguments);
       timer = null;
     }, wait);
   };
 };
 
-export function format(_row:any, _column:any, cellValue:any, _index:any) {
+export function format(_row: any, _column: any, cellValue: any, _index: any) {
   if (['', null, undefined].includes(cellValue)) {
     return '--';
   }
@@ -76,19 +76,19 @@ export function format(_row:any, _column:any, cellValue:any, _index:any) {
 export function dateFormat(fmt: string, date: Date) {
   let ret;
   const opt = {
-      "Y+": date.getFullYear().toString(),        // 年
-      "m+": (date.getMonth() + 1).toString(),     // 月
-      "d+": date.getDate().toString(),            // 日
-      "H+": date.getHours().toString(),           // 时
-      "M+": date.getMinutes().toString(),         // 分
-      "S+": date.getSeconds().toString()          // 秒
-      // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    "Y+": date.getFullYear().toString(),        // 年
+    "m+": (date.getMonth() + 1).toString(),     // 月
+    "d+": date.getDate().toString(),            // 日
+    "H+": date.getHours().toString(),           // 时
+    "M+": date.getMinutes().toString(),         // 分
+    "S+": date.getSeconds().toString()          // 秒
+    // 有其他格式化字符需求可以继续添加，必须转化成字符串
   };
   for (let k in opt) {
-      ret = new RegExp("(" + k + ")").exec(fmt);
-      if (ret) {
-          fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-      };
+    ret = new RegExp("(" + k + ")").exec(fmt);
+    if (ret) {
+      fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+    };
   };
   return fmt;
 }
@@ -102,7 +102,7 @@ export function formatCell(row, column, cellValue, index) {
 }
 
 export function formatVal(value) {
-  if(isNullOrUnDefOrVct(value)) {
+  if (isNullOrUnDefOrVct(value)) {
     return '--';
   }
   return value;
@@ -125,10 +125,21 @@ export function downloadJSONFile(val, fileName) {
   eleLink.style.display = 'none';
   // 这里的data换成你想要导出的JavaScript对象
   let data = val
-  let blob = new Blob([JSON.stringify(data, undefined, 2)], {type: 'text/json'})
+  let blob = new Blob([JSON.stringify(data, undefined, 2)], { type: 'text/json' })
   eleLink.href = URL.createObjectURL(blob);
   document.body.appendChild(eleLink);
   eleLink.click();
   document.body.removeChild(eleLink);
 }
 
+
+/**
+ * @description 从数组中获取指定 `key` 组成的新数组，会去重也会去除不存在的值
+ * @param arr 数组
+ * @param key 指定的 `key`
+ */
+export function getKeyList(arr, key) { 
+  let n = []; 
+  for (let r of arr) r[key] && n.push(r[key]); 
+  return Array.from(new Set(n)) 
+}

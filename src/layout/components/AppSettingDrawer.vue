@@ -151,7 +151,6 @@ function setisShowTags(status) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     &:not(:last-child) {
       margin-bottom: 6px;
     }
@@ -160,7 +159,6 @@ function setisShowTags(status) {
   .erase {
     width: 96%;
     margin: 0 2%;
-
     svg {
       margin-right: 5px;
     }

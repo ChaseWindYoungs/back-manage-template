@@ -1,16 +1,17 @@
-# Cesium + Vue 3 + TypeScript + Vite + Element-Plus + pnpm
-
-这是一个将官方网站上提供的实例放在一起的 project
-
-而且也是一个将TS vite 以及element-plus 结合在一起的template项目
+# Vue 3 + TypeScript + Vite + Element-Plus + pnpm
+是一个将TS vite 以及element-plus 结合在一起的template项目
 
 可以直接拉取模板，安装依赖，运行查看效果
 ## 运行
-如果本地没有pnpm，运行 `npm i -g pnpm` , 如果有，则忽略
+如果本地有pnpm，运行
 
 `pnpm install`
 
 `pnpm run dev`
+
+如果没pnpm 
+
+`npm i -g pnpm` 
 
 # 所有关键步骤的配置
 

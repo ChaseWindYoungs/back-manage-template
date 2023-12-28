@@ -1,10 +1,12 @@
 // 导入 Element Plus 中英文语言包
 import { ref, computed } from 'vue';
 import { defineStore } from "pinia";
-import AppConfig from '@/constants/AppConfig.ts';
+import AppConfig from '@/constants/AppConfig.ts'
 import { store } from "@/store";
 import { isBoolean, isEmpty, isEqual, isUrl } from '@/utils/is';
 import { multiType } from '../type'
+import { debounce, getKeyList } from "@/utils"
+
 const StorageName = 'TAGS_STORE'
 
 // setup
@@ -16,7 +18,7 @@ export const useTagsStore = defineStore(
     const showTags = ref(AppConfig.showTags); // 是否展示tag
     const keepAlive = ref(AppConfig.keepAlive); // 是否需要开启缓存
     const multiTags = ref([]); //保存的页面tag
-    const cachePageList = ref(JSON.parse(localStorage.getItem(StorageName) ?? '{}').cachePageList ?? []);
+    const cachePageList = ref([]);
 
     // getter
     const isShowTags = computed(() => showTags.value); // 是否展示tags
@@ -28,7 +30,7 @@ export const useTagsStore = defineStore(
     function setIsKeepAlive(status: boolean) {
       keepAlive.value = status
     }
-    function setMutilTags(routeItem) {
+    function setMutilTags(routeItem: string | undefined) {
       let { name, path, fullPath, query, meta } = routeItem
       if (multiTags.value.length == 0) {
         multiTags.value.push(routeItem)
@@ -47,8 +49,8 @@ export const useTagsStore = defineStore(
       }
     }
 
-    function handleTags<T>(mode: string, value?: T | multiType, position? : any) {
-      if (mode === 'push') {
+    function handleTags<T>(mode: string, value?: T | multiType, position?: any) {
+      if (mode === 'add') {
         const tagVal = value as multiType;
         // 不添加到标签页
         if (tagVal?.meta?.hiddenTag) return;
@@ -63,8 +65,8 @@ export const useTagsStore = defineStore(
         const tagHasExits = multiTags.value.some(tag => {
           return tag.path === tagPath;
         });
-         // 判断tag中的query键值是否相等
-         const tagQueryHasExits = multiTags.value.some(tag => {
+        // 判断tag中的query键值是否相等
+        const tagQueryHasExits = multiTags.value.some(tag => {
           return isEqual(tag?.query, tagVal?.query);
         });
         if (tagHasExits && tagQueryHasExits) return;
@@ -86,7 +88,6 @@ export const useTagsStore = defineStore(
       }
       const index = multiTags.value.findIndex((v: { name: any; }) => v.name === value.name);
       if (mode === 'delete') {
-        console.log('delete')
         if (position === 'current') {
           multiTags.value.splice(index, 1);
         } else if (position === 'left') {
@@ -98,12 +99,43 @@ export const useTagsStore = defineStore(
         } else if (position === 'all') {
           multiTags.value.splice(1, multiTags.value.length - 1)
         }
-      // } else if (mode === 'refresh') {
-        // multiTags.value = multiTags.value.filter(i => i.name !== value.name);
       }
+      handleCachePages(value, mode)
     }
-    function handleCachePages(value: {}, mode: string, position?: string) {
+    function handleCachePages<T>(value: T | multiType, mode: string, position?: string) {
+      if(!keepAlive.value) return
+      if(value.meta.hiddenTag) return
+      const delIndex = cachePageList.value.findIndex((v: any) => v.name === value.name);
+      switch (mode) {
+        case "refresh":
+          cachePageList.value = cachePageList.value.filter((v: any) => v.name !== value.name);
+          break;
+        case "add":
+          cachePageList.value.push(value);
+          break;
+        case "delete":
+          delIndex !== -1 && cachePageList.value.splice(delIndex, 1);
+          break;
+      }
       
+      cachePageList.value = cachePageList.value.filter((item, index, self) => {
+        // 只保留第一次出现的元素
+        return self.findIndex(obj => obj.name === item.name) === index;
+      });
+      /** 监听缓存页面是否存在于标签页，不存在则删除 */
+      debounce(() => {
+        let cacheLength = cachePageList.value.length;
+        const nameList = getKeyList(multiTags.value, "name");
+        while (cacheLength > 0) {
+          nameList.findIndex(v => v === cachePageList.value[cacheLength - 1].name) ===
+            -1 &&
+            cachePageList.value.splice(
+              cachePageList.value.indexOf(cachePageList.value[cacheLength - 1]),
+              1
+            );
+          cacheLength--;
+        }
+      })();
     }
     return {
       showTags,
