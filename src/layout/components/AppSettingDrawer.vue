@@ -52,11 +52,11 @@
         </div>
         <div class="set-item">
           <p>{{ $t("setting.hsShowGrayColor") }}</p>
-          <SwitchCom v-model="setting.showGreyColor" />
+          <SwitchCom v-model="setting.showGreyColor" @change="handleGreyChange($event, 'showGreyColor')"  />
         </div>
         <div class="set-item">
           <p>{{ $t("setting.hsShowWeakColor") }}</p>
-          <SwitchCom v-model="setting.showWeakColor" />
+          <SwitchCom v-model="setting.showWeakColor" @change="handleWeakChange($event, 'showWeakColor')" />
         </div>
         <el-divider>{{ $t("setting.titleEraseCache") }}</el-divider>
         <el-button type="danger" class="erase" @click="eraseCache()">
