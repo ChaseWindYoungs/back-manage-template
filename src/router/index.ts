@@ -44,7 +44,7 @@ export const commonRoutes = [
   {
     path: "/login",
     name: "Login",
-    component: () => import("@/pages/login/index.vue"),
+    component: () => import("@/layout/login/index.vue"),
     meta: { title: '登录', showLink: false, hiddenTag: true }
   },
   {
@@ -101,20 +101,27 @@ const router = createRouter({
 });
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
-  const { name, path, fullPath, query, meta } = to;
-  useTagsStoreHook().handleTags(
-    'add',
-    { name, path, fullPath, query, meta }
-  )
-  useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
-  // 页面整体刷新和点击标签页刷新
-  if (from.name === undefined || from.name === "Redirect") {
-    useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'delete',)
-    useTimeoutFn(() => {
-      useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
-    }, 100);
+  const token = localStorage.getItem('TOKEN')
+  if (!token) {
+    if (to.path === '/login') next();
+    else next('/login');
+  } else {
+    const { name, path, fullPath, query, meta } = to;
+    useTagsStoreHook().handleTags(
+      'add',
+      { name, path, fullPath, query, meta }
+    )
+    useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
+    // 页面整体刷新和点击标签页刷新
+    if (from.name === undefined || from.name === "Redirect") {
+      useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'delete',)
+      useTimeoutFn(() => {
+        useTagsStoreHook().handleCachePages({ name, path, fullPath, query, meta }, 'add',);
+      }, 100);
+    }
+    next();
   }
-  next();
+
 });
 router.afterEach(() => {
   NProgress.done();
