@@ -22,7 +22,7 @@ export const isEmpty = (val: { length?: any; size?: any; }) => {
     if (isArray(val) || isString(val)) return val.length === 0;
     if (val instanceof Map || val instanceof Set) return val.size === 0;
     if (isObject(val)) return Object.keys(val).length === 0;
-    return;
+    return false;
 }
 
 //判断是否是时间类型
@@ -42,6 +42,9 @@ export const isNullOrUnDef = (val: any) => isUnDef(val) || isNull(val);
 
 //判断undefined和null其中一个
 export const isNullOrUnDefOrVct = (val: any) => isUnDef(val) || isNull(val) || isVacant(val);
+
+//判断是不是都是空
+export const isAllEmpty = (t) => !!(isEmpty(t) || isNullOrUnDef(t))
 
 //判断是否是数字类型
 export const isNumber = (val: string) => isType(val, "Number");
