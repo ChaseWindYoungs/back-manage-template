@@ -29,13 +29,15 @@
   "menus": {
     "hshome": "首页",
     "hslogin": "登录",
+    "hsnested": "嵌套路由",
+    "hsnested1": "1级菜单",
+    "hsnested2": "2级菜单",
+    "hsnested3": "3级菜单",
+    "hsnested4": "4级菜单",
     "hsabnormal": "异常页面",
+    "hsfourZeroOne": "401",
     "hsfourZeroFour": "404",
-    "hsfourZeroOne": "403",
-    "hsFive": "500",
-    "permission": "权限管理",
-    "permissionPage": "页面权限",
-    "permissionButton": "按钮权限"
+    "hsFive": "500"
   },
   "status": {
     "hsLoad": "加载中...",

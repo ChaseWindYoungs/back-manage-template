@@ -59,6 +59,10 @@ import { routes } from '@/router/index'
 import { cloneDeep } from "lodash-es";
 import SearchResult from "./SearchResult.vue";
 import { useRouter } from "vue-router";
+import { transformI18n } from '@/plugins/i18n';
+import { isAllEmpty } from '@/utils/is';
+import { useI18n } from "vue-i18n";
+import { match } from "pinyin-pro";
 
 const emit = defineEmits(['update:modelValue',]);
 const props = defineProps({
@@ -82,6 +86,7 @@ const resultRef = ref(null);
 const resultOptions = shallowRef([]);
 const handleSearch = useDebounceFn(search, 300);
 const loading = ref(false)
+const { locale } = useI18n();
 
 function handleEnter () {
   const { length } = resultOptions.value;
@@ -99,17 +104,30 @@ function handleClose() {
   }, 200);
 }
 
+/** 查询 */
 function search() {
   loading.value = true
   const flatMenusData = flatTree(menusData.value).filter(i => i?.meta?.showLink !== false);
   let arr = flatMenusData.filter(menu => {
-    let flag = false;
-    flag = keyword.value ? 
-      menu?.meta?.title?.includes(keyword?.value?.trim()) 
-      : false
-    if(flag) return menu 
-    else return null
+    return keyword.value
+      ? transformI18n(menu.meta?.title)
+          .toLocaleLowerCase()
+          .includes(keyword.value.toLocaleLowerCase().trim()) ||
+          (locale.value === "zh" &&
+            !isAllEmpty(
+              match(
+                transformI18n(menu.meta?.title).toLocaleLowerCase(),
+                keyword.value.toLocaleLowerCase().trim()
+              )
+            ))
+      : false;
   })
+  if (resultOptions.value?.length > 0) {
+    activePath.value = resultOptions.value[0].path;
+  } else {
+    activePath.value = "";
+  }
+  
   // 等待的延迟动画
   setTimeout(() => {
     resultOptions.value = arr
@@ -125,9 +143,7 @@ function search() {
 
 /************* utils **************/
 /** 菜单树形结构 */
-const menusData = computed(() => {
-  return cloneDeep(routes);
-});
+const menusData = computed(() => cloneDeep(routes));
 
 /** 将菜单树形结构扁平化为一维数组，用于菜单查询 */
 function flatTree(arr: []) {

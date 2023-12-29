@@ -29,13 +29,15 @@
   "menus": {
     "hshome": "Home",
     "hslogin": "Login",
+    "hsnested": "nested",
+    "hsnested1": "nested1",
+    "hsnested2": "nested2",
+    "hsnested3": "nested3",
+    "hsnested4": "nested4",
     "hsabnormal": "Abnormal Page",
+    "hsfourZeroOne": "401",
     "hsfourZeroFour": "404",
-    "hsfourZeroOne": "403",
-    "hsFive": "500",
-    "permission": "Permission Manage",
-    "permissionPage": "Page Permission",
-    "permissionButton": "Button Permission"
+    "hsFive": "500"
   },
   "status": {
     "hsLoad": "Loading...",

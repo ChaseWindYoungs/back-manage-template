@@ -86,6 +86,7 @@ async function handleMouse(item: { path: string; }) {
   }
   .result-item-title{
     flex: 1;
+    margin-left: 10px;
   }
   
   

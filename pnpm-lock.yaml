@@ -41,6 +41,9 @@ dependencies:
   pinia-plugin-persistedstate:
     specifier: ^3.2.0
     version: 3.2.0(pinia@2.1.4)
+  pinyin-pro:
+    specifier: ^3.18.5
+    version: 3.18.5
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -2307,6 +2310,10 @@ packages:
       typescript: 5.0.2
       vue: 3.3.4
       vue-demi: 0.14.5(vue@3.3.4)
+    dev: false
+
+  /pinyin-pro@3.18.5:
+    resolution: {integrity: sha512-WNnVRkNj+SLkSLL+zUqWgs2t9RuEaCZFTNPyjwBqbgJYu6VSX5bZMP/hmKiUD0n21VJSQTBQHrW8plQQvK8b0A==}
     dev: false
 
   /pkg-types@1.0.3:

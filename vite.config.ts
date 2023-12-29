@@ -67,9 +67,6 @@ export default defineConfig({
     // proxy: {
     //   "/api": {
     //     target: "http://192.168.100.25:58011", // 开发环境
-    //     // target: 'http://192.168.100.26:58011', // 加密开发环境
-    //     // target: 'http://192.168.100.66:42091', // 测试环境
-    //     //target: 'http://120.26.38.129:42091', // 拉练环境
     //     changeOrigin: true,
     //     rewrite: (path) => path.replace(/^\/api/, ""),
     //   },
