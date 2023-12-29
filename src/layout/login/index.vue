@@ -3,8 +3,8 @@
     <div class="login-container">
       <div class="title">
         <z-text event="pointer" eventRotation="5deg" depth=".15em">
-          <p>IOT</p>
-          <p class="small">Platform</p>
+          <p>BMT</p>
+          <p class="small">back-manage-template</p>
         </z-text>
       </div>
 
@@ -131,7 +131,8 @@ onBeforeUnmount(() => {
   }
 
   .small {
-    font-size: 50px;
+    font-size: 60px;
+    margin-top: -60px;
   }
 }
 
