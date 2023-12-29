@@ -123,10 +123,14 @@ function handleWeakChange(val: boolean | undefined, key: string) {
 
 const router = useRouter();
 function eraseCache() {
-  eraseSettingCache();
-  greyChange();
-  weakChange();
-  router.push({ path: "/" });
+  eraseSettingCache()
+  greyChange()
+  weakChange()
+  localStorage.removeItem('TOKEN')
+  localStorage.removeItem('USER_STORE')
+  localStorage.removeItem('TAGS_STORE')
+  router.push({ path: '/login' })
+  location.reload()
 }
 
 function setisShowTags(status) {
