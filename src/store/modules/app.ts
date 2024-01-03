@@ -89,7 +89,7 @@ export const useAppStore = defineStore(
       let key: SettingKeys
       for (key in setting.value){
         /**
-         * ! 这里的Ts报错不知道怎么处理
+         * ! 这里的Ts报错不知怎么处理
          */
         setting.value[key] = AppConfig[key]
       }
