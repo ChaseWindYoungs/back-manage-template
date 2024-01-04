@@ -202,6 +202,9 @@ onBeforeUnmount(() => {
         display: flex;
         justify-content: flex-end;
       }
+      .el-input {
+        min-width: 180px
+      }
     }
   }
 

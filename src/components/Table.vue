@@ -1,7 +1,7 @@
 <template>
   <div class="table-box">
     <div class="top-content">
-      <div class="top-actions">
+      <div class="top-actions" v-if="slots?.actions && typeChange">
         <div class="left">
           <slot name="actions" />
         </div>
@@ -52,9 +52,13 @@
         </template>
       </el-table>
       <template v-else>
+        <template v-if="tableData.length > 0">
+        
         <template v-if="slots?.card">
-          <div v-for="item in tableData" :key="item">
-            <slot name="card" v-bind="item" />
+          <div ref="cardList" v-loading="loading">
+            <div v-for="(item, index) in tableData" :key="item">
+              <slot name="card" v-bind="{ item: item, index: index + 1 }" />
+            </div>
           </div>
         </template>
         <template v-else>
@@ -89,6 +93,10 @@
             </div>
           </div>
         </template>
+      </template>
+      <template v-else>
+        <slot name="cardEmpty"  />
+      </template>
       </template>
     </div>
     <div class="pagination-box" v-if="!onlyList && page.total > 0">
@@ -342,14 +350,14 @@ function changeShowType() {
 }
 
 function statusColor(item) {
-  let clsName = ''
-  if(props.shwoStatusColor) {
+  let clsName = ""
+  if (props.shwoStatusColor) {
     let keys = Object.keys(props.shwoStatusColor)
-   if(item[keys[0]] === props.shwoStatusColor[keys[0]]) {
-    clsName = 'success'
-   } else {
-    clsName = 'error'
-   }
+    if (item[keys[0]] === props.shwoStatusColor[keys[0]]) {
+      clsName = "success"
+    } else {
+      clsName = "error"
+    }
   }
   return clsName
 }
@@ -376,7 +384,8 @@ defineExpose({
   margin-top: 10px;
   padding: 10px 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   // padding-right: 10px;
 }
 
@@ -470,18 +479,34 @@ defineExpose({
       }
       &.success {
         &::before {
-          background: linear-gradient(188.4deg, rgba(19, 229, 0, 0.03) 30%, rgba(19, 229, 0, 0) 80%)
+          background: linear-gradient(
+            188.4deg,
+            rgba(19, 229, 0, 0.03) 30%,
+            rgba(19, 229, 0, 0) 80%
+          );
         }
         &::after {
-          background: linear-gradient(188.4deg, rgba(19, 229, 0, 0.03) 30%, rgba(19, 229, 0, 0) 80%)
+          background: linear-gradient(
+            188.4deg,
+            rgba(19, 229, 0, 0.03) 30%,
+            rgba(19, 229, 0, 0) 80%
+          );
         }
       }
       &.error {
         &::before {
-          background: linear-gradient(188.4deg, rgba(229, 0, 18, 0.03) 30%, rgba(229, 0, 18, 0) 80%)
+          background: linear-gradient(
+            188.4deg,
+            rgba(229, 0, 18, 0.03) 30%,
+            rgba(229, 0, 18, 0) 80%
+          );
         }
         &::after {
-          background: linear-gradient(188.4deg, rgba(229, 0, 18, 0.03) 30%, rgba(229, 0, 18, 0) 80%)
+          background: linear-gradient(
+            188.4deg,
+            rgba(229, 0, 18, 0.03) 30%,
+            rgba(229, 0, 18, 0) 80%
+          );
         }
       }
     }
