@@ -26,6 +26,12 @@ export const commonRoutes = [
         // vue-router会非递归合并所有 meta 字段（从父字段到子字段）的方法，因此，需要给该路由加上showLink: true，防止被覆盖
         meta: { title: '首页', icon: 'home', activeIcon: 'home-fill', showLink: true }
       },
+      {
+        path: "/md",
+        name: "MD",
+        component: () => import("@/pages/tools/markdown/index.vue"),
+        meta: { title: 'MD文件预览', showLink: true }
+      },
     ]
   },
   {
