@@ -57,9 +57,7 @@ const routeArr = computed(() => {
   return arr
 })
 const route = useRoute()
-onMounted(() => {
-  console.log(route)
-})
+
 </script>
 
 <style lang="scss" scoped>
