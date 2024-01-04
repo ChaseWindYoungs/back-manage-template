@@ -143,3 +143,37 @@ export function getKeyList(arr, key) {
   for (let r of arr) r[key] && n.push(r[key]); 
   return Array.from(new Set(n)) 
 }
+
+// 判断对象是否相同
+export function objEqual(x, y) {
+  var f1 = x instanceof Object;
+  var f2 = y instanceof Object;
+  if (!f1 || !f2) {
+    return x === y;
+  }
+  if (Object.keys(x).length !== Object.keys(y).length) {
+    return false;
+  }
+  var newX = Object.keys(x);
+  for (var p in newX) {
+    p = newX[p];
+    var a = x[p] instanceof Object;
+    var b = y[p] instanceof Object;
+    if (a && b) {
+      const equal = objEqual(x[p], y[p]);
+      if (!equal) {
+        return equal;
+      }
+    } else if (x[p] !== y[p]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+// 将字符串首字母大写
+export function capitalizeFirstLetter(str) {
+  const regex = /^[a-zA-Z]/
+  if (!regex.test(str)) return str
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
