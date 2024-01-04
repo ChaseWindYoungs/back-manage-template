@@ -3,15 +3,15 @@
   --white: #ffffff;
   --menuBg: #001529;
   --menuText: #bfcbd9;
-  // --menuActiveText: #409eff;
-  --menuActiveText: #1f74ff;
+  --menuActiveText: #ffffff;
+  --menuActiveBg: #1f74ff;
   --menuHover: #263445;
   --subMenuBg: #1f2d3d;
   --subMenuActiveText: #f4f4f5;
   --subMenuHover: #001528;
   --primary: #1f74ff;
+  --danger: #f56c6c;
   --text-color-primary: #303133;
-  --text-color-placeholder: #a8abb2;
   --text-color-placeholder: #a8abb2;
   /* 左侧菜单 */
   // 左侧菜单展开、收起宽度
@@ -23,15 +23,20 @@
   --top-bar-height: 60px;
   // 有tags时候的顶部菜单高度
   --header-with-tags-height: 100px;
+  // 内容主体距离顶部的高度
+  --height-from-top: 60px
 }
+
 
 $white: var(--white);
 $primary: var(--primary);
+$danger: var(--danger);
 $textColor: var(--text-color-primary);
 $info: var(--text-color-placeholder);
 $menuBg: var(--menuBg);
 $menuText: var(--menuText);
 $menuActiveText: var(--menuActiveText);
+$menuActiveBg: var(--menuActiveBg);
 $menuHover: var(--menuHover);
 
 $subMenuBg: var(--subMenuBg);
@@ -42,6 +47,7 @@ $menuExpandWidth: var(--menu-expand-width);
 $menuFoldWidth: var(--menu-fold-width);
 $headerWithTags: var(--header-with-tags-height);
 $topBarHeight: var(--top-bar-height);
+$heightFromTop: var(--height-from-top);
 $transDuration: var(--transition-duration);
 
 @mixin empty($content: "这里空空如也，请先选择") {
