@@ -85,71 +85,58 @@
   }
 }
 
-
-.collapse-sidebar {
-  .main-container{
-    width: calc(100% - $menuFoldWidth) !important;
-    margin-left: $menuFoldWidth !important;
+.left-menu-mode {
+  display: flex;
+  align-items: flex-start;
+  .main-container {
+    flex: 1;
+    height: 100vh;
+    min-height: 100%;
+    margin-left: $menuExpandWidth;
+    transition: margin $transDuration;
+    position: relative;
+    background: #f0f2f5;
+    width: calc(100% - $menuExpandWidth);
   }
-  .app-vertical-nav{
-    width: $menuFoldWidth !important;
+
+  &.collapse-sidebar {
+    .main-container {
+      width: calc(100% - $menuFoldWidth) !important;
+      margin-left: $menuFoldWidth !important;
+    }
+    .app-vertical-nav {
+      width: $menuFoldWidth !important;
+    }
+    .app-hearder {
+      width: calc(100% - $menuFoldWidth) !important;
+    }
   }
-  .app-hearder {
-    width: calc(100% - $menuFoldWidth) !important;
-  }
-}
-.hide-sidebar {
-  .main-container{
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
-  .app-vertical-nav{
-    width: 0 !important;
-  }
-  .app-hearder {
-    width: 100% !important;
+  &.hide-sidebar {
+    .main-container {
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+    .app-vertical-nav {
+      width: 0 !important;
+    }
+    .app-hearder {
+      width: 100% !important;
+    }
   }
 }
 
-/* fade */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.28s;
-}
-
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-
-/* fade-transform */
-.fade-transform-leave-active,
-.fade-transform-enter-active {
-  transition: all 0.5s;
-}
-
-.fade-transform-enter-from {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.fade-transform-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-/* breadcrumb transition */
-.breadcrumb-enter-active {
-  transition: all 0.4s;
-}
-
-.breadcrumb-leave-active {
-  position: absolute;
-  transition: all 0.3s;
-}
-
-.breadcrumb-enter-from,
-.breadcrumb-leave-active {
-  opacity: 0;
-  transform: translateX(20px);
+.top-menu-mode {
+  .app-hearder {width: 100%!important;}
+  .app-logo-content{
+    width: $menuExpandWidth;
+    .name {
+      color: $primary!important;
+    }
+  }
+  .app-sub-menu{
+    height: 100%;
+    .el-menu--horizontal.el-menu {
+      border-bottom: none!important;;
+    }
+  }
 }

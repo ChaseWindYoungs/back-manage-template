@@ -4,8 +4,8 @@ import { defineStore } from "pinia";
 import { store } from "@/store";
 import { getSettingValOrDef } from '../utils'
 import { toggleClass } from '@/utils'
-import zhCn from "element-plus/lib/locale/lang/zh-cn";
-import en from "element-plus/lib/locale/lang/en";
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import en from 'element-plus/dist/locale/en.mjs'
 import AppConfig from '@/constants/AppConfig';
 import { SettingDef, SettingKeys } from '../type'
 export const StorageName = 'APP_SETTING'
@@ -24,6 +24,8 @@ const settingKeys : Array<SettingKeys> = [
   'showGreyColor', 
   'showWeakColor', 
   'uniqueOpened', 
+  'layoutMode',
+  'theme'
 ]
 
 function initSetting() :SettingDef {
@@ -85,6 +87,7 @@ export const useAppStore = defineStore(
         document.querySelector("html") ?? undefined
       );
     }
+    
     function eraseSettingCache() {
       let key: SettingKeys
       for (key in setting.value){

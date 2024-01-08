@@ -1,6 +1,8 @@
+@import "./root";
 @import "./reset";
 @import "./element-plus";
 @import "./layout";
+@import "./transition";
 @import "./dark";
 /* 灰色模式 */
 .html-grey {
@@ -66,8 +68,9 @@
 
 .full-content {
   @extend .column;
-  padding: 15px;
+  margin: 15px;
   height: calc(100vh - $heightFromTop);
+  background-color: #fff;
   .f-c-search {
     margin-bottom: 10px;
     background: #fff;

@@ -107,6 +107,8 @@ watch(
 <style lang="scss" scoped>
 .menuItem-title {
   vertical-align: middle;
+  display: flex;
+  align-items: center;
   .menuItem-name {
     margin-left: 10px;
   }

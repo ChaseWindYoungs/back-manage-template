@@ -8,6 +8,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { resolve } from "path";
+import UnoCSS from 'unocss/vite'
 
 const pathSrc = path.resolve(__dirname, "src");
 
@@ -53,6 +54,7 @@ export default defineConfig({
       compositionOnly: true,
       include: [resolve("langs/**")]
      }),
+     UnoCSS(),
     
   ],
   server: {

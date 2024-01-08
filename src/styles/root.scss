@@ -1,0 +1,28 @@
+/* 自定义全局 CssVar */
+:root {
+  --white: #ffffff;
+  --menuBg: #001529;
+  --menuText: #bfcbd9;
+  --menuActiveText: #ffffff;
+  --menuActiveBg: #1f74ff;
+  --menuHover: #263445;
+  --subMenuBg: #1f2d3d;
+  --subMenuActiveText: #f4f4f5;
+  --subMenuHover: #001528;
+  --primary: #1f74ff;
+  --danger: #f56c6c;
+  --text-color-primary: #303133;
+  --text-color-placeholder: #a8abb2;
+  /* 左侧菜单 */
+  // 左侧菜单展开、收起宽度
+  --menu-expand-width: 240px;
+  --menu-fold-width: 64px;
+  // 展开、收起动画时长
+  --transition-duration: 0.3s;
+  // 顶部菜单高度
+  --top-bar-height: 60px;
+  // 有tags时候的顶部菜单高度
+  --header-with-tags-height: 100px;
+  // 内容主体距离顶部的高度
+  --height-from-top: 60px
+}

@@ -1,63 +1,56 @@
 <template>
-  <div class="app-sub-menu app-vertical-nav">
-    <Logo />
+  <div
+    class="app-sub-menu"
+    :class="[setting.layoutMode === 'left-menu-mode' ? 'app-vertical-nav' : 'app-horizontal-menu']"
+  >
+    <Logo v-if="setting.layoutMode === 'left-menu-mode'" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :unique-opened="setting.uniqueOpened"
-        mode="vertical"
-        class="menu-box" 
+        :mode="setting.layoutMode === 'top-menu-mode' ? 'horizontal' : 'vertical'"
+        class="menu-box"
         :collapse="!isCollapse"
         :default-active="route.path"
+        :ellipsis="false"
       >
-        <MenuItem 
-          v-for="item in routeArr" 
-          :key="item.path" 
-          :menuItem="item" 
-          :basePath="item.path"
-        />
+        <MenuItem v-for="item in routeArr" :key="item.path" :menuItem="item" :basePath="item.path" />
       </el-menu>
     </el-scrollbar>
-    <Collapse v-if="setting.showNavCollapse" />
+    <Collapse v-if="setting.showNavCollapse && setting.layoutMode === 'left-menu-mode'" />
   </div>
 </template>
 
 <script lang="ts" setup>
 defineOptions({
-  name: 'VerticalNav'
-})
+  name: "VerticalNav",
+});
 // import { computed } from 'vue';
 import { storeToRefs } from "pinia";
-import { routes } from '@/router/index'
-import { useRoute } from 'vue-router';
-import { useAppStore } from '@/store/modules/app'
-import Logo from '../components/Logo.vue';
-import Collapse from '../components/Collapse.vue';
+import { routes } from "@/router/index";
+import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/modules/app";
+import Logo from "../components/Logo.vue";
+import Collapse from "../components/Collapse.vue";
 import { computed } from "vue";
-import { onMounted } from "vue";
-import { cloneDeep } from "lodash-es"
+import { cloneDeep } from "lodash-es";
 const appStore = useAppStore();
 const { isCollapse, setting } = storeToRefs(appStore);
 
-// function goto(item: { path: RouteLocationRaw; }) {
-//   router.push(item.path);
-// }
-
 const routeArr = computed(() => {
-  let Layout = routes.find(i => i.name === 'Layout')
-  let layoutChilds = cloneDeep(Layout.children ?? [])
-  let arr = routes.filter(i => i.meta.showLink !== false)
-  layoutChilds.forEach(i => {
-    arr.unshift(i)
-  })
-  arr.forEach(i => {
-    if(!(i.children?.length >0)) {
-      i.meta.showTooltip = true
+  let Layout = routes.find((i) => i.name === "Layout");
+  let layoutChilds = cloneDeep(Layout.children ?? []);
+  let arr = routes.filter((i) => i.meta.showLink !== false);
+  layoutChilds.forEach((i) => {
+    arr.unshift(i);
+  });
+  arr.forEach((i) => {
+    if (!(i.children?.length > 0)) {
+      i.meta.showTooltip = true;
     }
-  })
-  return arr
-})
-const route = useRoute()
-
+  });
+  return arr;
+});
+const route = useRoute();
 </script>
 
 <style lang="scss" scoped>

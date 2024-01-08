@@ -29,4 +29,22 @@ html.dark {
       fill: var(--el-color-primary);
     }
   }
+
+  .app-hearder {
+    background-color: var(--el-bg-color)
+  }
+  .main-container {
+    background:  var(--el-bg-color-page)
+  }
+  .full-content .f-c-search {
+    background-color: var(--el-bg-color);
+  }
+  .common-form{
+    .item-label{
+      color: var(--el-text-color-regular);
+    }
+  }
+  .table-box {
+    background-color: var(--el-bg-color);
+  }
 }

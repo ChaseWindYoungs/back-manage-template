@@ -26,5 +26,7 @@ const AppConfig: AppConfigType = {
   showNavCollapse: true, // 展示菜单折叠按钮
   showGreyColor: false, // 展示灰色模式
   showWeakColor: false, // 展示色弱模式
+  theme: true, // 主题（是否是明亮主题）
+  layoutMode: 'left-menu-mode' // 布局模式
 }
 export default AppConfig
