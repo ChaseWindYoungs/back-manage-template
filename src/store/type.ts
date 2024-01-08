@@ -12,6 +12,8 @@ export interface SettingDef {
   showGreyColor?: Boolean;
   showWeakColor?: Boolean;
   uniqueOpened?: Boolean;
+  layoutMode?: string;
+  theme?: Boolean;
 }
 export type SettingKeys = keyof SettingDef
 
