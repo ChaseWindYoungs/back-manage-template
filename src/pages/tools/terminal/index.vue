@@ -1,12 +1,14 @@
 <template>
-  <div class="terminal-box">
-    <div class="info-box">
-      <p class="title">MQTT Status:<span id="status" :class="MQTTStatus ? 'success' : 'danger'">{{ MQTTStatusTitle }}</span></p>
-      <p>mqtt_user: {{ info?.clientId }}</p>
-      <p>mqttUrl: {{ info?.url }}</p>
-    </div>
-    <div class="terminal-content">
-      <div id="terminal" ></div>
+  <div class="full-content">
+    <div class="terminal-box">
+      <div class="info-box">
+        <p class="title">MQTT Status:<span id="status" :class="MQTTStatus ? 'success' : 'danger'">{{ MQTTStatusTitle }}</span></p>
+        <p>mqtt_user: {{ info?.clientId }}</p>
+        <p>mqttUrl: {{ info?.url }}</p>
+      </div>
+      <div class="terminal-content">
+        <div id="terminal" ></div>
+      </div>
     </div>
   </div>
 </template>
@@ -14,6 +16,7 @@
 /**
  * index
  * https://github.com/lewangdev/MQTT-Web-Terminal/blob
+ * 该功能依赖了 mqtt、xterm，以及xterm的生态
  */
 
 import { onMounted, ref } from "vue"
@@ -212,12 +215,12 @@ onMounted(() => {
   flex-direction: column;
   align-items: flex-start;
   background-color: #3b4b5d;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 .info-box {
-  margin-top: 10vh;
-  margin-left: 10vw;
+  margin-top: 4vh;
+  margin-left:4vw;
   color: #fff;
   .title {
      font-size: 24px;font-weight: bold;
@@ -231,9 +234,9 @@ onMounted(() => {
 }
 
 .terminal-content {
-  width: 80vw;
-  height: 70vh;
-  margin: 0 10vw;
+  width: calc(100% - 8vw);
+  height: 80%;
+  margin: 0 4vw;
   margin-top: 10px;
   #terminal{
     width: 100%;
