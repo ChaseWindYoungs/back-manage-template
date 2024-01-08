@@ -14,6 +14,7 @@
           :key="index"
           class="tag-item"
           :class="{ active: route.name === item.name, 'content-menu-active': rightMenuIndex === index }"
+          :style="{ '--i': `tag${item.name}` }"
           @click="goto(item, index)"
           @mouseenter.prevent="onMouseEnter(index)"
           @mouseleave.prevent="onMouseLeave"
@@ -254,7 +255,14 @@ function handleDelete(item: any, index: number) {
     router.push({ name: newItem.name });
     currentIndex.value = index - 1;
   }
-  tagsStore.handleTags("delete", item, "current");
+  // 动态效果
+  if (document.startViewTransition) {
+    document.startViewTransition(() => {
+      tagsStore.handleTags("delete", item, "current");
+    });
+  } else {
+    tagsStore.handleTags("delete", item, "current");
+  }
 }
 
 function onMouseEnter(index: number) {
@@ -283,7 +291,6 @@ function setContextmenuPosition(e: MouseEvent) {
   let top = `${(e?.clientY ?? 0) + 20}px`;
   menuPosition.value = { left, top };
 }
-
 
 function filterMenuList(index: number) {
   let arr = cloneDeep(tagsRightMenu);
@@ -319,11 +326,9 @@ function menuItemClick(item: { disabled: any; flag: string }, key: number) {
   if (item.flag === "refresh") {
     tagsStore.handleTags("refresh", cIdxItem);
     // 刷新路由
-    nextTick(() =>{
+    nextTick(() => {
       handleReFresh();
-    })
-    
-    
+    });
   } else {
     if (item.flag === "cur_full") {
       changeContentFull();
@@ -462,6 +467,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     transition: all $transDuration;
+    view-transition-name: var(--tag);
 
     .title {
       font-size: 14px;
