@@ -17,6 +17,8 @@ import ZText from '@namchee/vue-ztext';
 import VMdPreview from '@/plugins/markdownView/index.ts'
 import "@/plugins/markdownView/index.scss";
 
+import 'virtual:uno.css'
+
 const app = createApp(App);
 useIcoins(app)
 // 全局注册 状态管理(store)
