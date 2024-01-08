@@ -1,6 +1,7 @@
 import {
   createRouter,
   createWebHashHistory,
+  createWebHistory,
   RouteRecordRaw
 } from 'vue-router';
 import errorRoutes from './error.ts'
@@ -26,12 +27,6 @@ export const commonRoutes = [
         // vue-router会非递归合并所有 meta 字段（从父字段到子字段）的方法，因此，需要给该路由加上showLink: true，防止被覆盖
         meta: { title: '首页', icon: 'home', activeIcon: 'home-fill', showLink: true }
       },
-      {
-        path: "/md",
-        name: "MD",
-        component: () => import("@/pages/tools/markdown/index.vue"),
-        meta: { title: 'MD文件预览', showLink: true }
-      },
     ]
   },
   {
@@ -45,6 +40,33 @@ export const commonRoutes = [
         component: () => import("@/layout/components/Redirect.vue"),
         meta: { title: '重定向', showLink: false, hiddenTag: true }
       }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'Components',
+    component: Layout,
+    redirect: '/components/md',
+    meta: { title: '组件', icon: 'appstore-fill'},
+    children: [
+      {
+        path: "/md",
+        name: "MD",
+        component: () => import("@/pages/tools/markdown/index.vue"),
+        meta: { title: 'MD文件预览', icon: 'file-markdown' }
+      },
+      {
+        path: "/terminal",
+        name: "Terminal",
+        component: () => import("@/pages/tools/terminal/index.vue"),
+        meta: { title: '终端调用', icon: 'shortcut' }
+      },
+      {
+        path: "/icons",
+        name: "Icons",
+        component: () => import("@/pages/components/icons/index.vue"),
+        meta: { title: '图标', icon: "bulb" }
+      },
     ]
   },
   {
@@ -95,6 +117,12 @@ export const commonRoutes = [
       },
     ]
   },
+  {
+    path: "/baidu",
+    name: "baidu",
+    component: () => import("@/layout/login/index.vue"),
+    meta: { title: '外链', hiddenTag: true, href: 'http://www.baidu.com' } 
+  },
 ];
 export const routes = [
   ...commonRoutes,
@@ -102,7 +130,7 @@ export const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: routes as RouteRecordRaw[]
 });
 router.beforeEach(async (to, from, next) => {
@@ -112,6 +140,14 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') next();
     else next('/login');
   } else {
+
+    // 外链路由, 从新标签打开，返回上一个路由
+    if (to.meta.href) {
+      window.open(to.meta.href);
+      next({ path: from.fullPath, replace: true, query: from.query });
+      return;
+    }
+    
     const { name, path, fullPath, query, meta } = to;
     useTagsStoreHook().handleTags(
       'add',
