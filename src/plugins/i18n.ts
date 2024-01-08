@@ -2,8 +2,8 @@ import { App, WritableComputedRef } from "vue";
 import { type I18n, createI18n } from "vue-i18n";
 
 // element-plus国际化
-import enLocale from "element-plus/lib/locale/lang/en";
-import zhLocale from "element-plus/lib/locale/lang/zh-cn";
+import zhLocale from 'element-plus/dist/locale/zh-cn.mjs'
+import enLocale from 'element-plus/dist/locale/en.mjs'
 import { isObject } from "@/utils/is";
 
 // 获取所有的翻译文件
