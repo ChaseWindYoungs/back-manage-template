@@ -47,22 +47,22 @@ export const commonRoutes = [
     name: 'Components',
     component: Layout,
     redirect: '/components/md',
-    meta: { title: '组件', icon: 'appstore-fill'},
+    meta: { title: '组件', icon: 'appstore-fill' },
     children: [
       {
-        path: "/md",
+        path: "md",
         name: "MD",
         component: () => import("@/pages/tools/markdown/index.vue"),
         meta: { title: 'MD文件预览', icon: 'file-markdown' }
       },
       {
-        path: "/terminal",
+        path: "terminal",
         name: "Terminal",
         component: () => import("@/pages/tools/terminal/index.vue"),
         meta: { title: '终端调用', icon: 'shortcut' }
       },
       {
-        path: "/icons",
+        path: "icons",
         name: "Icons",
         component: () => import("@/pages/components/icons/index.vue"),
         meta: { title: '图标', icon: "bulb" }
@@ -121,7 +121,55 @@ export const commonRoutes = [
     path: "/baidu",
     name: "baidu",
     component: () => import("@/layout/login/index.vue"),
-    meta: { title: '外链', hiddenTag: true, href: 'http://www.baidu.com' } 
+    meta: { title: '外链', icon: 'link', hiddenTag: true, href: 'https://chasewindyoungs.github.io/blog/' }
+  },
+  {
+    path: "/charts",
+    name: "Charts",
+    component: Layout,
+    redirect: 'echart',
+    meta: { title: '图表', icon: 'barchart' },
+    children: [
+      {
+        path: "echart",
+        name: "Echart",
+        component: () => import("@/pages/screen/index.vue"),
+        meta: { title: 'echart', icon: 'file-markdown' }
+      },
+    ]
+  },
+  {
+    path: "/documentation",
+    name: "Documentation",
+    component: Layout,
+    redirect: '/documentation/vue',
+    meta: { title: '文档', icon: 'book' },
+    children: [
+      {
+        path: "vue",
+        name: "Vue",
+        component: () => import("@/pages/tools/iframe/index.vue"),
+        meta: { title: 'Vue', icon: 'file-markdown', src: 'https://cn.vuejs.org/' }
+      },
+      {
+        path: "vitejs",
+        name: "Vitejs",
+        component: () => import("@/pages/tools/iframe/index.vue"),
+        meta: { title: 'Vitejs', icon: 'file-markdown', src: 'https://cn.vitejs.dev/' }
+      },
+      {
+        path: "vue-router",
+        name: "Vue-Router",
+        component: () => import("@/pages/tools/iframe/index.vue"),
+        meta: { title: 'Vue-Router', icon: 'file-markdown', src: 'https://router.vuejs.org/zh/' }
+      },
+      {
+        path: "pinia",
+        name: "Pinia",
+        component: () => import("@/pages/tools/iframe/index.vue"),
+        meta: { title: 'Pinia', icon: 'file-markdown', src: 'https://pinia.vuejs.org/zh/' }
+      },
+    ]
   },
 ];
 export const routes = [
@@ -147,7 +195,7 @@ router.beforeEach(async (to, from, next) => {
       next({ path: from.fullPath, replace: true, query: from.query });
       return;
     }
-    
+
     const { name, path, fullPath, query, meta } = to;
     useTagsStoreHook().handleTags(
       'add',
