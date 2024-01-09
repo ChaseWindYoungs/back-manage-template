@@ -95,7 +95,7 @@
 }
 .has-tags-view {
   .full-content {
-    height: calc(100vh - $headerWithTags);
+    height: calc(100vh - $headerWithTags - 30px);
   }
 }
 
