@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppLink: typeof import('./src/components/AppLink.vue')['default']
+    Chart: typeof import('./src/components/Chart.vue')['default']
     copy: typeof import('./src/components/Dialog copy.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
