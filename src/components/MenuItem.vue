@@ -25,6 +25,7 @@
         <el-menu-item :index="basePath" >
           <div class="menuItem-title">
             <el-tooltip
+              v-if="menuItem.meta && menuItem.meta.icon" 
               class="box-item"
               effect="dark"
               :offset="30"
@@ -33,7 +34,6 @@
               :disabled="!(menuItem.meta?.showTooltip && !isCollapse)"
             >
               <SvgIcon
-                v-if="menuItem.meta && menuItem.meta.icon" 
                 :iconClass="currentRouteName === menuItem.name ? menuItem.meta.activeIcon ?? menuItem.meta.icon : menuItem.meta.icon"
               />
             </el-tooltip>
