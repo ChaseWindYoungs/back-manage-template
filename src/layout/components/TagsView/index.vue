@@ -1,10 +1,8 @@
 <template>
   <div ref="containerDom" class="tags-view">
     <!-- 左侧箭头 -->
-    <span v-show="isShowArrow" class="arrow-left">
-      <el-icon @click="handleScroll()">
-        <ArrowLeft />
-      </el-icon>
+    <span v-show="isShowArrow" class="arrow-left" @click="handleScroll('left')">
+      <el-icon><ArrowLeft /></el-icon>
     </span>
     <div ref="scrollbarDom" class="scroll-container">
       <div ref="tabDom" class="tags-list">
@@ -31,17 +29,13 @@
         </div>
       </div>
     </div>
-    <span v-show="isShowArrow" class="arrow-right">
-      <el-icon @click="handleScroll()">
-        <ArrowRight />
-      </el-icon>
+    <span v-show="isShowArrow" class="arrow-right" @click="handleScroll('right')">
+      <el-icon><ArrowRight /></el-icon>
     </span>
     <!-- 右侧功能按钮 -->
     <el-dropdown trigger="click" placement="bottom-end" @command="handleCommand">
       <span v-show="isShowArrow" class="arrow-menu">
-        <el-icon>
-          <ArrowDown />
-        </el-icon>
+        <el-icon><ArrowDown /></el-icon>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
@@ -230,8 +224,26 @@ const tagsRightMenu = [
 ];
 const tagsRightMenuFilter = ref([]);
 
-function handleScroll() {
-  console.log(333333);
+const scrollbarDom = ref(null);
+const tabDom = ref(null);
+function handleScroll(direction) {
+  let boxWidth = scrollbarDom.value.clientWidth;
+  let tabDomWidth = tabDom.value.scrollWidth;
+  if (
+    (currentIndex.value === 0 && direction === "left") ||
+    (currentIndex.value === multiTags.value.length - 1 && direction === "right")
+  )
+    return;
+  if (tabDomWidth > boxWidth) {
+    if (direction === "right") {
+      scrollbarDom.value.scrollLeft += 20;
+    } else {
+      scrollbarDom.value.scrollLeft -= 20;
+    }
+  }
+  let next = multiTags.value[currentIndex.value + (direction === "left" ? -1 : 1)];
+  router.push({ name: next.name });
+  currentIndex.value = currentIndex.value + (direction === "left" ? -1 : 1);
 }
 
 function goto(item: { name: any }, index: number) {
@@ -451,6 +463,7 @@ onMounted(() => {
   .scroll-container {
     flex: 1;
     padding: 4px 6px;
+    overflow: auto;
   }
 
   .tags-list {
@@ -471,6 +484,7 @@ onMounted(() => {
 
     .title {
       font-size: 14px;
+      white-space: nowrap;
     }
 
     // &:first-child {
