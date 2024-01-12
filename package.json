@@ -15,6 +15,8 @@
     "@namchee/vue-ztext": "^1.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vueuse/core": "^10.2.1",
+    "@vueuse/motion": "^2.0.0",
+    "colord": "^2.9.3",
     "echarts": "^5.4.3",
     "echarts-liquidfill": "^3.1.0",
     "element-plus": "^2.4.4",
