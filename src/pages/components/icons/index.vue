@@ -1,5 +1,5 @@
 <template>
-  <div class="full-content p-15 icon-page">
+  <div class="icon-page">
     <h3>所有图标</h3>
     <div class="all-icons">
       <div class="icon-item" v-for="item in iconNames" :key="item">
@@ -27,11 +27,8 @@ import iconNames from "./iconNames";
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 15px;
-  height: calc(100vh - var(--header-with-tags-height) - 30px);
 }
 .all-icons {
-  background-color: #f8f8f8;
   flex: 1;
   display: flex;
   align-items: center;
@@ -40,6 +37,7 @@ import iconNames from "./iconNames";
   overflow: auto;
   margin: 40px 0;
   .icon-item {
+    cursor: pointer;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 0 4px 1px $primary;

@@ -1,6 +1,6 @@
 <template>
   <div class="app-logo-content" v-show="setting.showAppName">
-    <img :src="srcImg" class="icon" :alt="AppConfig.name" />
+    <SvgIcon className="icon" iconClass="logo" />
     <span class="name" v-show="isCollapse">{{ AppConfig.name }}</span>
   </div>
 </template>
@@ -24,27 +24,3 @@ const { isCollapse, setting } = storeToRefs(appStore);
 // const showName = computed(() => isCollapse.value);
 
 </script>
-<style lang="scss" scoped>
-.app-logo-content{
-  padding: 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  .icon{
-    width: 30px;
-    height: 30px;
-  }
-  .name{
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 10px;
-    color: $white;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-</style>

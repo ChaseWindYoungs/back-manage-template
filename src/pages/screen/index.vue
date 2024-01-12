@@ -1,5 +1,5 @@
 <template>
-  <div class="full-content">
+  <div>
     <div class="w300 h300">
       <Chart :chartOption="waveOption" id="wave" ref="waveChartRef" />
     </div>

@@ -1,0 +1,96 @@
+/*
+  ********** 页面、组件中自定义样式相关 **********
+*/
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.action {
+ .el-link{
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+ }
+}
+
+.full-content {
+  @extend .column;
+  margin: 15px;
+  height: calc(100vh - $heightFromTop);
+  background-color: #fff;
+  .f-c-search {
+    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 4px;
+    .el-row {
+      padding: 6px 12px !important;
+    }
+  }
+  &>.table-box {
+    @extend .column;
+    flex: 1;
+    overflow: hidden;
+    justify-content: space-between;
+    border-radius: 4px;
+    padding: 10px;
+    .top-content {
+      @extend .column;
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  &:has(.no-bg) {
+    background-color: unset;
+  }
+}
+.has-tags-view {
+  .full-content {
+    height: calc(100vh - $headerWithTags - 30px);
+  }
+}
+
+.commnad-size-select {
+  .active {
+    background-color: var(--el-dropdown-menuItem-hover-fill);
+    color: var(--el-dropdown-menuItem-hover-color);
+  }
+}
+
+@mixin empty($content: "这里空空如也，请先选择") {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  background: url("@/assets/images/empty.png") no-repeat center;
+  background-size: 100%;
+
+  &::before {
+    position: absolute;
+    display: inline-block;
+    bottom: 0;
+    font-size: 14px;
+    height: 20px;
+    width: 100%;
+    content: $content;
+    color: $info;
+    text-align: center;
+  }
+}
+
+/* 自定义菜单搜索样式 */
+.search-dialog {
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding-top: 12px;
+    padding-bottom: 10px;
+  }
+
+  .el-dialog__footer {
+    padding: 0;
+  }
+}

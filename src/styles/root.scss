@@ -1,10 +1,15 @@
-/* 自定义全局 CssVar */
+/*
+  ********** 自定义全局 基本的 CssVar **********
+*/
+
 :root {
   --white: #ffffff;
-  --menuBg: #001529;
-  --menuText: #bfcbd9;
-  --menuActiveText: #ffffff;
-  --menuActiveBg: #1f74ff;
+  --menuBg: #fff;
+  --mainBg: #fff;
+  --rootBg: rgb(246, 249, 248);
+  --menuText: #000000d9;
+  --menuActiveText: #1f74ff;
+  --menuActiveBg: #f0f6ff;
   --menuHover: #263445;
   --subMenuBg: #1f2d3d;
   --subMenuActiveText: #f4f4f5;
@@ -13,6 +18,9 @@
   --danger: #f56c6c;
   --text-color-primary: #303133;
   --text-color-placeholder: #a8abb2;
+  --disabled-bg-color: #f5f7fa;
+  --disabled-text-color: #a8abb2;
+  --disabled-border-color: #e4e7ed;
   /* 左侧菜单 */
   // 左侧菜单展开、收起宽度
   --menu-expand-width: 240px;
