@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
       # 运行构建脚本
       - name: Build site
-        run: pnpm docs:build
+        run: pnpm build
 
   # Deployment job
   deploy:
