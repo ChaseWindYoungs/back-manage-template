@@ -58,4 +58,4 @@ jobs:
           build_dir: dist
         env:
           # @see https://docs.github.com/cn/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
-          GITHUB_TOKEN: ${{ secrets.BLOG_WORKFLOW_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOBE_VUE_TEMPLATE_WORKFLOW }}
