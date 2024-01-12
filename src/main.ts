@@ -4,6 +4,8 @@ import router from './router';
 import {useIcoins } from '@/utils/icons.ts'
 import { setupStore } from "@/store";
 import { useI18n } from "@/plugins/i18n";
+import { MotionPlugin } from '@vueuse/motion'
+
 // 样式
 import "element-plus/theme-chalk/dark/css-vars.css";
 import "@/styles/index.scss";
@@ -27,3 +29,4 @@ app.component('SvgIcon', SvgIcon);
 app.use(router).use(useI18n).mount('#app');
 app.use(ZText)
 app.use(VMdPreview);
+app.use(MotionPlugin)
