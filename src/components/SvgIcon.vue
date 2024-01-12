@@ -24,7 +24,7 @@ const props = defineProps({
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .svg-icon{
   cursor: pointer;
   fill: currentColor;

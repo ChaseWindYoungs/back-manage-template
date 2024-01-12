@@ -54,7 +54,6 @@ const barConfig: LoopConfig = {
 };
 
 const onmousemove = (e: ECElementEvent) => {
-  console.log(e);
   clearInterval(barConfig.timer);
   barConfig.currentIndex = e.dataIndex;
 };
