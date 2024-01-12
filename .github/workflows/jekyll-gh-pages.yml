@@ -18,7 +18,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           # 选择要使用的 pnpm 版本
-          version: 8
+          version: 7
           # 使用 pnpm 安装依赖
           run_install: true
 
@@ -31,13 +31,13 @@ jobs:
           cache: pnpm
 
       # 运行构建脚本
-      - name: Build site
-        run: pnpm build
+      - name: Build VuePress site
+        run: pnpm docs:build
 
       # 查看 workflow 的文档来获取更多信息
       # @see https://github.com/crazy-max/ghaction-github-pages
       - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: crazy-max/ghaction-github-pages@v2
         with:
           # 部署到 gh-pages 分支
           target_branch: gh-pages
