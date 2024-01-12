@@ -16,17 +16,25 @@ export const commonRoutes = [
     path: '/',
     name: 'Layout',
     component: Layout,
-    redirect: '/welcome',
+    redirect: '/dashboard',
     meta: { title: 'Layout', showLink: false },
     children: [
       {
-        path: '/welcome',
-        component: () => import("@/pages/Home.vue"),
-        name: 'welcome',
+        path: '/dashboard',
+        component: () => import("@/pages/dashboard/index.vue"),
+        name: 'Dashboard',
         // https://router.vuejs.org/zh/guide/advanced/meta.html
         // vue-router会非递归合并所有 meta 字段（从父字段到子字段）的方法，因此，需要给该路由加上showLink: true，防止被覆盖
         meta: { title: '首页', icon: 'home', activeIcon: 'home-fill', showLink: true }
       },
+      // {
+      //   path: '/welcome',
+      //   component: () => import("@/pages/Home.vue"),
+      //   name: 'welcome',
+      //   // https://router.vuejs.org/zh/guide/advanced/meta.html
+      //   // vue-router会非递归合并所有 meta 字段（从父字段到子字段）的方法，因此，需要给该路由加上showLink: true，防止被覆盖
+      //   meta: { title: '首页', icon: 'home', activeIcon: 'home-fill', showLink: true }
+      // },
     ]
   },
   {
@@ -65,7 +73,7 @@ export const commonRoutes = [
         path: "icons",
         name: "Icons",
         component: () => import("@/pages/components/icons/index.vue"),
-        meta: { title: '图标', icon: "bulb" }
+        meta: { title: '图标', icon: "smile" }
       },
     ]
   },
