@@ -33,5 +33,4 @@ const { isCollapse, setting } = storeToRefs(appStore);
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-</style>
+
