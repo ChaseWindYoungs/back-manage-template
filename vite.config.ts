@@ -13,7 +13,7 @@ import UnoCSS from 'unocss/vite'
 const pathSrc = path.resolve(__dirname, "src");
 
 export default defineConfig({
-  base: './',
+  base: '/back-manage-template/', // 如果是本地的项目，就修改为'./', 如果是部署在github page，就写上仓库名
   resolve: {
     alias: {
       "@": pathSrc,
