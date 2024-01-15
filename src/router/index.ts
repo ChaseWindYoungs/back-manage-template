@@ -186,7 +186,7 @@ export const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: routes as RouteRecordRaw[]
 });
 router.beforeEach(async (to, from, next) => {
