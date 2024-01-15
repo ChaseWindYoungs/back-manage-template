@@ -42,7 +42,7 @@
             <el-button link type="primary" >忘记密码？</el-button>
           </div>
           
-          <el-button class="w-100%" type="primary" @click="handleLogin" @keyup.enter="handleLogin">登 录</el-button>
+          <el-button class="w-100%" type="primary" @click="handleLogin" @keyup.enter="handleLogin" :loading="loading">登 录</el-button>
         </el-form>
       </div>
     </div>
@@ -70,6 +70,7 @@ const form = reactive({
   verify: "",
 });
 const formRef = ref();
+const loading = ref(false);
 const rules = reactive({
   username: [{ required: true, message: "请输入用户名", trigger: ["blur", "change"] }],
   password: [{ required: true, message: "请输入密码", trigger: ["blur", "change"] }],
@@ -93,15 +94,17 @@ const imgCode = ref("");
 function handleLogin() {
   formRef.value.validate((valid) => {
     if (valid) {
+      loading.value = true
       const obj = cloneDeep(form);
       console.log(obj);
       setTimeout(() => {
         localStorage.setItem("TOKEN", "Test");
         ElMessage.success("登录成功");
         router.push("/");
+        loading.value = false
       }, 1000);
     }
-  });
+  })
 }
 function keyDown(e) {
   if (e.keyCode == 13) {
