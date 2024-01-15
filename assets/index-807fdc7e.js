@@ -1,0 +1,1 @@
+import{j as t,ac as c,r,k as a,l as o}from"./index-f0783a82.js";const n=["src"],m=t({__name:"index",setup(l){const e=c(),s=r(e.meta.src);return(u,_)=>(a(),o("iframe",{class:"w-full h-full",src:s.value},null,8,n))}});export{m as default};
