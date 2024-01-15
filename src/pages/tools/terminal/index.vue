@@ -220,7 +220,6 @@ onMounted(() => {
 .info-box {
   margin-top: 4vh;
   margin-left: 4vw;
-  color: #fff;
   .title {
     font-size: 24px;
     font-weight: bold;
